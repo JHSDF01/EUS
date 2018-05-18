@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
-def locate_train(unyo_num, idno):
+def locate_train(stationid, unyo_num, idno):
     stationid[idno] = unyo_num
     return stationid
 
@@ -28,14 +28,14 @@ def draw_train(hour,sec):
     un6 = "1101+1001"
     stationid =[0 for i in range(31)]
 
-    locate_train(un1, '0')
-    locate_train(un2, '6')
-    locate_train(un3, '11')
-    locate_train(un4, '15')
-    locate_train(un5, '19')
-    locate_train(un6, 's')
+    locate_train(stationid, un1, '0')
+    locate_train(stationid, un2, '6')
+    locate_train(stationid, un3, '11')
+    locate_train(stationid, un4, '15')
+    locate_train(stationid, un5, '19')
+    locate_train(stationid, un6, 's')
 
-    doun=""
+    down=""
     downicon=""
     up=""
     upicon=""
