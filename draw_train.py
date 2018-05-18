@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 def locate_train(stationid, unyo_num, idno):
-    stationid[idno] = unyo_num
+    stationid[int(idno)] = unyo_num
     return stationid
 
 
@@ -28,37 +28,59 @@ def draw_train(hour,sec):
     un6 = "1101+1001"
     stationid =[0 for i in range(31)]
 
-    locate_train(stationid, un1, '0')
-    locate_train(stationid, un2, '6')
-    locate_train(stationid, un3, '11')
-    locate_train(stationid, un4, '15')
-    locate_train(stationid, un5, '19')
-    locate_train(stationid, un6, 's')
+    locate_train(stationid, un1, 0)
+    locate_train(stationid, un2, 5)
+    locate_train(stationid, un3, 10)
+    locate_train(stationid, un4, 16)
+    locate_train(stationid, un5, 21)
+    locate_train(stationid, un6, 26)
 
     down=""
     downicon=""
     up=""
     upicon=""
 
-    location = "藤沢　石上　柳小路　鵠沼　湘南海岸公園　江ノ島　腰越　鎌倉高校前　峰が原　七里ヶ浜　稲村ケ崎　極楽寺　長谷　由比ガ浜　和田塚"
+    #location = "藤沢　石上　柳小路　鵠沼　湘南海岸公園　江ノ島　腰越　鎌倉高校前　峰が原　七里ヶ浜　稲村ケ崎　極楽寺　長谷　由比ガ浜　和田塚　鎌倉"
+    location = "藤沢　石上　柳小　鵠沼　湘南　江ノ　腰越　鎌高　峰原　七里　稲村　極楽　長谷　由比　和田　鎌倉"
+    track_s =  "                  ----        ----              ----        ----        ----              ----"
+    track_m =  "----------------------------------------------------------------------------------------------"
     for i in range(0,15):
-        down += stationid[i] + " "
         if stationid[i] != 0:
-            downicon += "    |     "
+            down += str(stationid[i]) 
+            down += " "
         else:
-            downicon += "          "
-    
-    for i in range(16,31):
-        up += stationid[i]
-        up += " "
-        if stationid[i] != 0:
-            upicon += "    |     "
-        else:
-            upicon += "          "
+            if i != 0 and stationid[i-1] != 0:
+                down += " "
+            else:            
+                down += "      " 
 
+        if stationid[i] != 0:
+            downicon += "  |   "
+        else:
+            downicon += "      "
+    
+    for i in reversed(range(16,31)):
+        if stationid[i] != 0:
+            up += str(stationid[i])
+            up += " "
+            
+        else:
+            if i >= 31 and stationid[i+1] != 0:
+                up += " "
+            else:
+                up += "      " 
+
+        if stationid[i] != 0:
+            upicon += "  |   "
+        else:
+            upicon += "      "
+
+    print( "\n\n" + hour + "時" + sec + "分現在の" + "江ノ電運用" + "\n\n")
     print(down)
     print(downicon)
+    print(track_s)
     print(location)
+    print(track_m)
     print(upicon)
     print(up)
     return
