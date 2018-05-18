@@ -26,7 +26,8 @@ def draw_train(hour,sec):
     un4 = "2003+1502"
     un5 = " 501+ 305"
     un6 = "1101+1001"
-    stationid =[i for range(31)]
+    stationid =[0 for i in range(31)]
+
     locate_train(un1, '0')
     locate_train(un2, '6')
     locate_train(un3, '11')
@@ -42,7 +43,7 @@ def draw_train(hour,sec):
     location = "藤沢　石上　柳小路　鵠沼　湘南海岸公園　江ノ島　腰越　鎌倉高校前　峰が原　七里ヶ浜　稲村ケ崎　極楽寺　長谷　由比ガ浜　和田塚"
     for i in range(0,15):
         down += stationid[i] + " "
-        if stationid[i] is not None:
+        if stationid[i] != 0:
             downicon += "    |     "
         else:
             downicon += "          "
@@ -50,7 +51,7 @@ def draw_train(hour,sec):
     for i in range(16,31):
         up += stationid[i]
         up += " "
-        if stationid[i] is not None:
+        if stationid[i] != 0:
             upicon += "    |     "
         else:
             upicon += "          "
