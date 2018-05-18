@@ -29,18 +29,20 @@ def move_train(hour,sec,un1, un2, un3, un4, un5, un6):
     gokurakuji = "---------"
     hase = "---------"
     kamakura = "---------"
+    #駅番号　藤沢から０～１６
 
     if sec % 12 == 0:
         #藤沢待機
+        
 
 
-    if sec % 12 == 6:
+    elif sec % 12 == 6:
         #峰が原待機
 
-    if sec % 12 == 7:
+    elif sec % 12 == 7:
         #上り極楽寺
 
-    if sec % 12 == 2:
+    elif sec % 12 == 2:
         #下り極楽寺
 
     down = 
