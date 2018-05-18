@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-# -*- coding: UTF-8 -*-
+# coding: utf-8
 
 #Unyoは配列名で、Un1からun6まである。
 # Un6 は　藤沢・鎌倉の1次元2要素の配列
+
 
 def set_train(hour, sec, un_number, station):
     if hour == 5 and sec == 43:
@@ -21,16 +22,13 @@ def move_train(hour,sec,un1, un2, un3, un4, un5, un6):
     #駅とホームにナンバーを割り当てて配列化する
     #藤沢基準
     station = []
-    fujisawa = "---------"
-    kugenuma = "---------"
-    enoshima = "---------"
-    minegahara = "---------"
-    inamuragasaki = "---------"
-    gokurakuji = "---------"
-    hase = "---------"
-    kamakura = "---------"
-    #駅番号　藤沢から０～１６
 
+    #駅番号　藤沢から０～31
+
+
+
+"""
+    #交換場所ごとに場所を弄る方法はやめたので
     if sec % 12 == 0:
         #藤沢待機
         
@@ -44,6 +42,6 @@ def move_train(hour,sec,un1, un2, un3, un4, un5, un6):
 
     elif sec % 12 == 2:
         #下り極楽寺
-
+"""
     down = 
     up = 

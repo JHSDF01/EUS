@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# coding: utf-8
 
 def locate_train(stationid, unyo_num, idno):
     stationid[int(idno)] = unyo_num
@@ -20,12 +21,12 @@ def draw_train(hour,sec):
     hase
     kamakura
     """
-    un1 = "1002+ 22 "
-    un2 = "2001+1201"
-    un3 = " 10 +1501"
-    un4 = "2003+1502"
-    un5 = " 501+ 305"
-    un6 = "1101+1001"
+    un1 = "[1]1002+ 22 "
+    un2 = "[2]2001+1201"
+    un3 = "[3] 10 +1501"
+    un4 = "[4]2003+1502"
+    un5 = "[5] 501+ 305"
+    un6 = "[6]1101+1001"
     stationid =[0 for i in range(32)]
 
     locate_train(stationid, un1, 0)
@@ -44,14 +45,18 @@ def draw_train(hour,sec):
     location = "藤沢　石上　柳小　鵠沼　湘南　江ノ　腰越　鎌高　峰原　七里　稲村　極楽　長谷　由比　和田　鎌倉"
     track_s =  "                  ----        ----              ----        ----        ----              ----"
     track_m =  "----------------------------------------------------------------------------------------------"
+    
+    #下り列車の描画位置設定
     for i in range(0,16):
-        print(i)
+        #print(i)
+        #駅に車両がいるかどうか
         if stationid[i] != 0:
+            #列車番号記入
             down += str(stationid[i]) 
-            down += " "
+            down += ""
         else:
             if i != 0 and stationid[i-1] != 0:
-                down += "  "
+                down += ""
             else:            
                 down += "      " 
 
@@ -60,15 +65,16 @@ def draw_train(hour,sec):
         else:
             downicon += "      "
     
+    #上り列車の描画位置設定
     for i in reversed(range(16,32)):
-        print(i)
+        #print(i)
         if stationid[i] != 0:
             up += str(stationid[i])
-            up += " "
+            up += ""
             
         else:
             if i < 31 and stationid[i+1] != 0:
-                up += "  "
+                up += ""
             else:
                 up += "      " 
 
