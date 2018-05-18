@@ -3,7 +3,7 @@
 
 # Un6 = entry_cars(9, 24, 305, 1001)
 #　みたいな書き方をしていく
-
+# Un6 は　藤沢・鎌倉の1次元2要素の配列
 
 
 def entry_cars(hour,sec,fuji,kama):
@@ -11,6 +11,8 @@ def entry_cars(hour,sec,fuji,kama):
     if car is None:
         train[0]= fuji
         train[1]= kama
+    else:
+        print "error"
     return train
 
 def add_cars(ud, car, train):
