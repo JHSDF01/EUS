@@ -9,21 +9,23 @@ def locate_train(stationid, unyo_num, idno):
     stationid[int(idno)] = unyo_num
     return stationid
 
-un1= tr.UnyouClass(" 501+2003", 0, 1)
-un2= tr.UnyouClass(" 10 +1001", 5, 2)
-un3= tr.UnyouClass("2002+1502", 10, 3)
-un4= tr.UnyouClass("1101+ 22 ", 16, 4)
-un5= tr.UnyouClass(" 21 +1501", 21, 5)
-un6= tr.UnyouClass("1002+ 305", 26, 6)
+un1= tr.UnyouClass(" 501","", 0, 1)
+#un1= tr.UnyouClass(" 501","2003", 0, 1)
+un2= tr.UnyouClass(" 10 ","1001", 5, 2)
+un3= tr.UnyouClass("2002","1502", 10, 3)
+un4= tr.UnyouClass("1101"," 22 ", 16, 4)
+un5= tr.UnyouClass(" 21 ","1501", 21, 5)
+un6= tr.UnyouClass("1002"," 305", 26, 6)
 
+"""
 if __name__ == '__main__':
-    un1= tr.UnyouClass("1002+ 22 ", 0, 1)
-    un2= tr.UnyouClass("2001+1201", 5, 2)
-    un3= tr.UnyouClass(" 10 +1501", 10, 3)
-    un4= tr.UnyouClass("2003+1502", 16, 4)
-    un5= tr.UnyouClass(" 501+ 305", 21, 5)
-    un6= tr.UnyouClass("1101+1001", 26, 6)
-
+    un1= tr.UnyouClass("1002"," 22 ", 0, 1)
+    un2= tr.UnyouClass("2001","1201", 5, 2)
+    un3= tr.UnyouClass(" 10 ","1501", 10, 3)
+    un4= tr.UnyouClass("2003","1502", 16, 4)
+    un5= tr.UnyouClass(" 501"," 305", 21, 5)
+    un6= tr.UnyouClass("1101","1001", 26, 6)
+"""
 stationid =[0 for i in range(32)]
 
 tr.UnyouClass.set_train(un1,stationid)
@@ -108,14 +110,14 @@ def draw_train(hour,sec,stationid):
 
     return stationid
 
-hour = 9
-sec = 48
 
 
+if __name__ == '__main__':
+    hour = 7
+    sec = 24
+    while True:
 
-while True:
-
-    draw_train(hour,sec,stationid)
-    sleep(1)
-    tr.startingsignal_sta_pattern(sec,stationid)
-    hour, sec = tc.time_counter(hour, sec)
+        draw_train(hour,sec,stationid)
+        sleep(1)
+        tr.startingsignal_sta_pattern(hour,sec,stationid)
+        hour, sec = tc.time_counter(hour, sec)

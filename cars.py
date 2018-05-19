@@ -6,13 +6,16 @@
 # Un6 は　藤沢・鎌倉の1次元2要素の配列
 
 
+
+
 def entry_cars(hour,sec,fuji,kama):
+    #始発運用に車両を登録する場合
     train=[]
     if car is None:
         train[0]= fuji
         train[1]= kama
     else:
-        print "error"
+        print("error")
     return train
 
 def add_cars(ud, car, train):
