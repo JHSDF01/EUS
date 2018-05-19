@@ -1,6 +1,8 @@
 #!/usr/bin/python3
-# -*- coding: UTF-8 -*-
 # coding: utf-8
+
+from time import sleep
+import train as tr
 
 def locate_train(stationid, unyo_num, idno):
     stationid[int(idno)] = unyo_num
