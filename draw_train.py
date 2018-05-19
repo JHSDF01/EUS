@@ -2,42 +2,49 @@
 # coding: utf-8
 
 from time import sleep
+import time_count as tc
 import train as tr
 
 def locate_train(stationid, unyo_num, idno):
     stationid[int(idno)] = unyo_num
     return stationid
 
+un1= tr.UnyouClass(" 501+2003", 0, 1)
+un2= tr.UnyouClass(" 10 +1001", 5, 2)
+un3= tr.UnyouClass("2002+1502", 10, 3)
+un4= tr.UnyouClass("1101+ 22 ", 16, 4)
+un5= tr.UnyouClass(" 21 +1501", 21, 5)
+un6= tr.UnyouClass("1002+ 305", 26, 6)
+
+if __name__ == '__main__':
+    un1= tr.UnyouClass("1002+ 22 ", 0, 1)
+    un2= tr.UnyouClass("2001+1201", 5, 2)
+    un3= tr.UnyouClass(" 10 +1501", 10, 3)
+    un4= tr.UnyouClass("2003+1502", 16, 4)
+    un5= tr.UnyouClass(" 501+ 305", 21, 5)
+    un6= tr.UnyouClass("1101+1001", 26, 6)
+
+stationid =[0 for i in range(32)]
+
+tr.UnyouClass.set_train(un1,stationid)
+tr.UnyouClass.set_train(un2,stationid)
+tr.UnyouClass.set_train(un3,stationid)
+tr.UnyouClass.set_train(un4,stationid)
+tr.UnyouClass.set_train(un5,stationid)
+tr.UnyouClass.set_train(un6,stationid)
 
 
-def draw_train(hour,sec):
+"""
+locate_train(stationid, un1, 0)
+locate_train(stationid, un2, 5)
+locate_train(stationid, un3, 10)
+locate_train(stationid, un4, 16)
+locate_train(stationid, un5, 21)
+locate_train(stationid, un6, 26)
+"""
+
+def draw_train(hour,sec,stationid):
     
-    stationid = []
-    """
-    fujisawa
-    kugenuma
-    enoshima
-    minegahara
-    inamuragasaki
-    gokurakuji
-    hase
-    kamakura
-    """
-    un1 = "[1]1002+ 22 "
-    un2 = "[2]2001+1201"
-    un3 = "[3] 10 +1501"
-    un4 = "[4]2003+1502"
-    un5 = "[5] 501+ 305"
-    un6 = "[6]1101+1001"
-    stationid =[0 for i in range(32)]
-
-    locate_train(stationid, un1, 0)
-    locate_train(stationid, un2, 5)
-    locate_train(stationid, un3, 10)
-    locate_train(stationid, un4, 16)
-    locate_train(stationid, un5, 21)
-    locate_train(stationid, un6, 26)
-
     down=""
     downicon=""
     up=""
@@ -45,8 +52,8 @@ def draw_train(hour,sec):
 
     #location = "藤沢　石上　柳小路　鵠沼　湘南海岸公園　江ノ島　腰越　鎌倉高校前　峰が原　七里ヶ浜　稲村ケ崎　極楽寺　長谷　由比ガ浜　和田塚　鎌倉"
     location = "藤沢　石上　柳小　鵠沼　湘南　江ノ　腰越　鎌高　峰原　七里　稲村　極楽　長谷　由比　和田　鎌倉"
-    track_s =  "                  ----        ----              ----        ----        ----              ----"
-    track_m =  "----------------------------------------------------------------------------------------------"
+    track_s =  "----              ----        ----              ----        ----        ----              ----"
+    track_m =  "    ------------------------------------------------------------------------------------------"
     
     #下り列車の描画位置設定
     for i in range(0,16):
@@ -86,7 +93,7 @@ def draw_train(hour,sec):
             upicon += "      "
 
     print("Enoden Unyo Simurator test")
-    print( "\n\n" + hour + "時" + sec + "分現在の" + "江ノ電車両位置" + "\n\n")
+    print( "\n\n" + str(hour) + "時" + str(sec) + "分現在の" + "江ノ電車両位置" + "\n\n")
     print(down)
     print(downicon)
     print(track_s)
@@ -99,6 +106,16 @@ def draw_train(hour,sec):
     print("\nこれはテスト画面です。実際の運用ではありません。\n")
 
 
-    return
+    return stationid
 
-draw_train('9','48')
+hour = 9
+sec = 48
+
+
+
+while True:
+
+    draw_train(hour,sec,stationid)
+    sleep(1)
+    tr.startingsignal_sta_pattern(sec,stationid)
+    hour, sec = tc.time_counter(hour, sec)

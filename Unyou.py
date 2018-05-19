@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
-import tain.py as tr
+
 
 unyo_file = 'unyo_20171107.txt'
 unyo = []
