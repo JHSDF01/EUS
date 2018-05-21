@@ -37,7 +37,7 @@ while hour < 6:
 
 
     draw.draw_train(hour,sec,stationid)
-    sleep(1)
+    sleep(0.3)
     tr.startingsignal_sta_morning(hour,sec,stationid)
     hour, sec = tc.time_counter(hour, sec)
 
