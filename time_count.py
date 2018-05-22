@@ -12,8 +12,8 @@ if __name__ == '__main__':
     hour = ""
     min = ""
 
-def alarm(alarmhour, alarmmin, hour, min):
-    if alarmhour == hour and alarmmin == min:
+def timesig(timesighour, timesigmin, hour, min):
+    if timesighour == hour and timesigmin == min:
         return True
     else:
         return False 

@@ -11,7 +11,7 @@
 def entry_cars(hour,min,fuji,kama):
     #始発運用に車両を登録する場合
     train=[]
-    if car is None:
+    if train is None:
         train[0]= fuji
         train[1]= kama
     else:
