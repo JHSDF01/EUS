@@ -5,7 +5,7 @@ from time import sleep
 import time_count as tc
 import train as tr
 
-stationid =[0 for i in range(32)]
+stationid =[0 for i in range(42)]
 
 
 hour = 5

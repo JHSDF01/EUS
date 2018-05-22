@@ -26,7 +26,7 @@ if __name__ == '__main__':
     un5= tr.UnyouClass(" 501"," 305", 21, 5)
     un6= tr.UnyouClass("1101","1001", 26, 6)
 """
-stationid =[0 for i in range(32)]
+stationid =[0 for i in range(42)]
 
 tr.UnyouClass.set_train(un1,stationid)
 tr.UnyouClass.set_train(un2,stationid)
@@ -51,12 +51,19 @@ def draw_train(hour,min,stationid):
     downicon=""
     up=""
     upicon=""
+    e1=""
+    e3=""
+    e4=""
+    
 
     #location = "藤沢　石上　柳小路　鵠沼　湘南海岸公園　江ノ島　腰越　鎌倉高校前　峰が原　七里ヶ浜　稲村ケ崎　極楽寺　長谷　由比ガ浜　和田塚　鎌倉"
     location = "藤沢　石上　柳小　鵠沼　湘南　江ノ　腰越　鎌高　峰原　七里　稲村　極楽　長谷　由比　和田　鎌倉"
     track_s =  "----              ----        ----              ----        ----        ----              ----"
     track_m =  "    ------------------------------------------------------------------------------------------"
-    
+    track_e4 =  "                                --"
+    track_e3 =  "                                 --"
+    track_e1 =  "                                  --"
+    track_goku = "                                                         ____検車区 "
     #下り列車の描画位置設定
     for i in range(0,16):
         #print(i)
@@ -93,9 +100,28 @@ def draw_train(hour,min,stationid):
             upicon += " <|   "
         else:
             upicon += "      "
+    
+    if stationid[32] != 0:
+        track_e1 += str(stationid[32])
+    if stationid[33] != 0:
+        track_e3 += str(stationid[33])
+    if stationid[34] != 0:
+        track_e4 += str(stationid[34])
+    if stationid[35] != 0:
+        track_e4 += " "
+        track_e4 += str(stationid[35])
+    
+    for i in range(36,42):
+        if stationid[i] != 0:
+            track_goku += " "
+            track_goku += stationid[i]
+        else:
+            pass
 
     print("Enoden Unyo Simurator test")
     print( "\n\n" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
+    print(track_goku)
+    print( "\n")
     print(down)
     print(downicon)
     print(track_s)
@@ -103,6 +129,11 @@ def draw_train(hour,min,stationid):
     print(track_m)
     print(upicon)
     print(up)
+    print( "\n")
+    print(track_e4)
+    print(track_e3)
+    print(track_e1)
+    
     print("\n遅延など反映できない場合があります。\n")
     print("\n")
     print("\nこれはテスト画面です。実際の運用ではありません。\n")
