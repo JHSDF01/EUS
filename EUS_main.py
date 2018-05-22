@@ -13,24 +13,26 @@ min = 0
 
 def run_train(hour,min):
     if tc.timesig(5,43, hour, min) == True:
-        un1 = tr.UnyouClass(" 501","", 20, 1)
-        tr.UnyouClass.set_train(un1,stationid) 
+        tr.un1 = tr.UnyouClass(" 501","", 20, 1)
+        tr.un1.set_train(stationid) 
     if tc.timesig(5,22, hour, min) == True:
-        un2= tr.UnyouClass(" 10 ","1001", 5, 2)
-        tr.UnyouClass.set_train(un2,stationid)
+        tr.un2= tr.UnyouClass(" 10 ","1001", 5, 2)
+        tr.un2.set_train(stationid)
     if tc.timesig(5,9, hour, min) == True:
-        un3= tr.UnyouClass("2002","1502", 5, 3)
-        tr.UnyouClass.set_train(un3,stationid)
+        tr.un3= tr.UnyouClass("2002","1502", 5, 3)
+        tr.un3.set_train(stationid)
     if tc.timesig(5,10, hour, min) == True:
-        un4= tr.UnyouClass("1101"," 22 ", 26, 4)
-        tr.UnyouClass.set_train(un4,stationid)
+        tr.un4= tr.UnyouClass("1101"," 22 ", 26, 4)
+        tr.un4.set_train(stationid)
     if tc.timesig(6,11, hour, min) == True:
-        un5= tr.UnyouClass(" 21 ","1501", 10, 5)
-        tr.UnyouClass.set_train(un5,stationid)
+        tr.un5= tr.UnyouClass(" 21 ","1501", 10, 5)
+        tr.un5.set_train(stationid)
     if tc.timesig(5,22, hour, min) == True:
-        un6= tr.UnyouClass("1002"," 305", 21, 6)
-        tr.UnyouClass.set_train(un6,stationid)
+        tr.un6= tr.UnyouClass("1002"," 305", 21, 6)
+        tr.un6.set_train(stationid)
 
+    if tc.timesig(9,23, hour, min) == True:
+        tr.un1.out_train(stationid,26)
     
 while hour < 6:
     #始発列車の発車処理関数をここで6運用分入れる

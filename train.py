@@ -29,6 +29,26 @@ class UnyouClass:
             stationid[self.location] = str(self.icon) + self.train[0] + '     '
         return stationid
 
+    def out_train(self, stationid,idnum):
+        #入庫措置
+
+        #江ノ島留置
+        if idnum == 26 and len(self.train) == 1:
+            if stationid[33] == 0:
+                stationid[idnum], stationid[33] = stationid[33], stationid[idnum]
+                self.location = idnum
+            elif stationid[32] == 0:
+                stationid[idnum], stationid[34] = stationid[34], stationid[idnum]
+                self.location = idnum
+ 
+        #極楽寺留置
+        if idnum == 11 or idnum == 20:
+            for i in range(37, 42):
+                if stationid[i] == 0:
+                    stationid[idnum], stationid[i] = stationid[i], stationid[idnum]
+                    self.location = i
+        return stationid
+
     
 """
 un1= UnyouClass("1002+ 22 ", 0, 1)
