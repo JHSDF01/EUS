@@ -45,7 +45,7 @@ locate_train(stationid, un5, 21)
 locate_train(stationid, un6, 26)
 """
 
-def draw_train(hour,sec,stationid):
+def draw_train(hour,min,stationid):
     
     down=""
     downicon=""
@@ -95,7 +95,7 @@ def draw_train(hour,sec,stationid):
             upicon += "      "
 
     print("Enoden Unyo Simurator test")
-    print( "\n\n" + str(hour) + "時" + str(sec) + "分現在の" + "江ノ電車両位置" + "\n\n")
+    print( "\n\n" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
     print(down)
     print(downicon)
     print(track_s)
@@ -114,10 +114,10 @@ def draw_train(hour,sec,stationid):
 
 if __name__ == '__main__':
     hour = 7
-    sec = 24
+    min = 24
     while True:
 
-        draw_train(hour,sec,stationid)
+        draw_train(hour,min,stationid)
         sleep(1)
-        tr.startingsignal_sta_pattern(hour,sec,stationid)
-        hour, sec = tc.time_counter(hour, sec)
+        tr.startingsignal_sta_pattern(hour,min,stationid)
+        hour, min = tc.time_counter(hour, min)

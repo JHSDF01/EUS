@@ -48,12 +48,12 @@ unlist = [un1,un2,un3,un4,un5,un6]
 
 
 #パターンダイヤ時の時刻に合わせて動かす
-def startingsignal_sta_pattern(hour, sec, stationid):
+def startingsignal_sta_pattern(hour, min, stationid):
     time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[11]]
     time_up = [[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[],[],[]]
     for i in range(11):
         #12分間隔のうち、例えば1分の時だったら配列の１にある０と10の駅で座標入れかえ
-        if sec % 12 == i:
+        if min % 12 == i:
             for j in range(len(time_down[i])):
                 sta = time_down[i][j]
                 if sta == 14:
@@ -72,24 +72,24 @@ def startingsignal_sta_pattern(hour, sec, stationid):
     return stationid
 
 #早朝用運用管理
-def startingsignal_sta_morning(hour, sec, stationid):
+def startingsignal_sta_morning(hour, min, stationid):
 
     time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[11]]
     time_up = [[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[],[],[15]]
     for i in range(11):
         #12分間隔のうち、例えば1分の時だったら配列の１にある０と10の駅で座標入れかえ
-        if sec % 12 == i:
+        if min % 12 == i:
             for j in range(len(time_down[i])):
                 sta = time_down[i][j]
                 if sta == 14:
                     #和田塚0532発を鎌倉5番線に入選させる
-                    if tc.alarm(5,32, hour, sec) == True:
+                    if tc.alarm(5,32, hour, min) == True:
                         stationid[14],stationid[15]=stationid[15],stationid[14] 
                     else:
                         stationid[14],stationid[16]=stationid[16],stationid[14]
                 #早朝藤沢24発48分発を除外する
                 elif sta == 0:
-                    if sec % 24 == 0:
+                    if min % 24 == 0:
                         pass
                     else:
                         stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
@@ -103,7 +103,7 @@ def startingsignal_sta_morning(hour, sec, stationid):
                     if stationid[30] != 0:
                         stationid[sta],stationid[0]=stationid[0],stationid[sta]
                 elif sta == 15:
-                    if tc.alarm(5,59, hour, sec) == True:
+                    if tc.alarm(5,59, hour, min) == True:
                         stationid[15],stationid[17]=stationid[17],stationid[15]
                 elif sta == 16:
                     #鎌倉駅3番ホーム発車時刻

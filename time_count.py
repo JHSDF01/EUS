@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
-def time_counter(hour, sec):
-    sec += 1
-    if sec == 60:
+def time_counter(hour, min):
+    min += 1
+    if min == 60:
         hour += 1
-        sec = 0
-    return hour,sec
+        min = 0
+    return hour,min
 
 if __name__ == '__main__':
     hour = ""
-    sec = ""
+    min = ""
 
-def alarm(alarmhour, alarmsec, hour, sec):
-    if alarmhour == hour and alarmsec == sec:
+def alarm(alarmhour, alarmmin, hour, min):
+    if alarmhour == hour and alarmmin == min:
         return True
     else:
         return False 
