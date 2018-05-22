@@ -31,12 +31,16 @@ def run_train(hour,min):
         tr.un6= tr.UnyouClass("1002"," 305", 21, 6)
         tr.un6.set_train(stationid)
 
-    if tc.timesig(9,23, hour, min) == True:
+    if tc.timesig(7,23, hour, min) == True:
         tr.un1.out_train(stationid,26)
+    if tc.timesig(7,25, hour, min) == True:
+        tr.un２.out_train(stationid,11)
+    
     
 while hour < 6:
-    #始発列車の発車処理関数をここで6運用分入れる
-    #入庫列車を線路上から各運用で除去する
+    #始発列車の発車処理関数をここで6運用分入れる　移設
+    #入庫列車を線路上から運用ごとに除去する
+    #両数の変更は車両交換で行うこと。江ノ島留置に重連突っ込もうとしたときにどういう処理を出すかはいまのところ考えてない
     run_train(hour, min)
 
     draw.draw_train(hour,min,stationid)

@@ -42,11 +42,20 @@ class UnyouClass:
                 self.location = idnum
  
         #極楽寺留置
+        #37は入庫線。一時的に値を格納して置き、基本的には単行にばらして保管する
+        #極楽寺2とか3は重連でもおいておけるけどここをどう定義するか悩みどころ
+        #38、39は重連対応にする？
         if idnum == 11 or idnum == 20:
-            for i in range(37, 42):
-                if stationid[i] == 0:
-                    stationid[idnum], stationid[i] = stationid[i], stationid[idnum]
-                    self.location = i
+            stationid[idnum], stationid[37] = stationid[37], stationid[idnum]            
+            for i in range(38, 42):
+                for j in range(len(self.train)):
+                
+                    if stationid[i] == 0:
+                        stationid[i]= self.train[j]
+                        break
+            self.location = 37
+            #stationid[37] = 0
+            
         return stationid
 
     
@@ -72,7 +81,7 @@ unlist = [un1,un2,un3,un4,un5,un6]
 def startingsignal_sta_pattern(hour, min, stationid):
     #[12分間隔の時の時間[その時間の時に出発する駅ID]]
     #1分や13分に出発するのは駅番号０の藤沢、5のえのしま、10の稲村ケ崎
-    time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[11]]
+    time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[]]
     time_up = [[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[],[],[]]
     for i in range(11):
         #12分間隔のうち、例えば1分の時だったら配列の１にある０と10の駅で座標入れかえ
@@ -101,7 +110,7 @@ def startingsignal_sta_pattern(hour, min, stationid):
 #早朝用運用管理
 def startingsignal_sta_morning(hour, min, stationid):
 
-    time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[11]]
+    time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[]]
     time_up = [[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[],[],[15]]
     for i in range(11):
         #12分間隔のうち、例えば1分の時だったら配列の１にある０と10の駅で座標入れかえ
