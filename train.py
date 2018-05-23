@@ -6,6 +6,11 @@
 import cars as car
 import time_count as tc
 
+unyouid = []
+if __name__ == '__main__':
+    
+    stationid = []
+
 class UnyouClass:
     def __init__(self, car1, car2, stationnum, icon):
         self.train =[]
@@ -16,10 +21,24 @@ class UnyouClass:
         self.location = stationnum
         self.icon = "[" + str(icon) + "]"
 
+        if len(self.train) == 2:
+            self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
+        else:
+            self.carname = str(self.icon) + self.train[0] + '     '
+        unyouid.append(self)
 
-    def move_train(self, new_location):
-        self.location = new_location
+    def __del__(self):
+        for i in len(unyouid):
+            if unyouid[i] == self: 
+                del unyouid[i]
+
+        pass
+
+    def move_train(self, location, distance):
+        self.location += distance
+        stationid[location],stationid[location+distance] = stationid[location+distance],stationid[location]
         return self.location
+        
 
     def set_train(self, stationid):
         print(str(len(self.train)))
@@ -51,14 +70,67 @@ class UnyouClass:
                 for j in range(len(self.train)):
                 
                     if stationid[i] == 0:
-                        stationid[i]= self.train[j]
+                        stationid[i]= str(self.train[j])
                         break
             self.location = 37
             #stationid[37] = 0
-            
+    
+        del self
         return stationid
 
-    
+    def add_cars(self, location, car, stationid):
+        #単行に出庫車を連結する場合
+        if location < 16:
+            self.train.append(car)
+        else:
+            #train[0] = train[1]
+            #train[0] = car
+            self.train.append(car)
+            self.train[0], self.train[1] = car, self.train[0]
+
+        stationid[location] = str(self.icon) + self.train[0] + '+' + self.train[1]
+        return stationid
+
+
+    def parge_cars(self, location, stationid):
+        #重連を開放して入庫する場合
+        if location < 16:
+            self.train[0] = self.train[1]
+            del self.train[1]
+        else:
+            del self.train[1]
+
+        stationid[location] = str(self.icon) + self.train[0] + '     '
+        return stationid
+
+
+    def change_back_cars(self, location, car, stationid):
+        #重連の前に2両を連結し、後ろ2両を開放する場合
+        if self.location < 16:
+            #train[0] = train[1]
+            #train[1] = car
+            self.train[0], self.train[1] = self.train[1], car
+        else:
+            #train[1] = train[0]
+            #train[0] = car
+            self.train[0], self.train[1] = car, self.train[0]
+
+        stationid[location] = str(self.icon) + self.train[0] + '+' + self.train[1]
+        return stationid
+
+    def change_all_cars(self, location, car, stationid):
+        #重連の前に2両を待機させ、後ろ4両をそのまま入庫させる場合
+        if self.location < 16:
+            self.train[0] = car
+            del self.train[1]
+        else:
+            self.train[0] = car
+            del self.train[1]
+
+        stationid[location] = str(self.icon) + self.train[0] + '     '
+        return stationid
+
+
 """
 un1= UnyouClass("1002+ 22 ", 0, 1)
 un2= UnyouClass("2001+1201", 5, 2)
