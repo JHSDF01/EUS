@@ -8,7 +8,14 @@ import time_count as tc
 
 unyouid = []
 if __name__ == '__main__':
-    
+    un1 = UnyouClass(" 501","2003", 20, 1)
+    un2 = UnyouClass(" 10 ","1001", 5, 2)
+    un3 = UnyouClass("2002","1502", 5, 3)
+    un4 = UnyouClass("1101"," 22 ", 26, 4)
+    un5 = UnyouClass(" 21 ","1501", 10, 5)
+    un6 = UnyouClass("1002"," 305", 21, 6)
+    un7 = UnyouClass("1501"," 502", 21, 6)   
+    testrun = UnyouClass("1201","", 21, 6)      
     stationid = []
 
 class UnyouClass:
@@ -39,7 +46,7 @@ class UnyouClass:
         
 
     def set_train(self, stationid):
-        print(str(len(self.train)))
+        # print(str(len(self.train)))
         if len(self.train) == 2:
             stationid[self.location] = self
             self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
@@ -131,6 +138,26 @@ class UnyouClass:
         return stationid
 
 
+def move_some_train(location, distance, stationid):
+    #stationid[location].move_train(location, distance, stationid)
+    if un1 == stationid[location]:
+        un1.move_train(location, distance, stationid)
+    if un2 == stationid[location]:
+        un2.move_train(location, distance, stationid)
+    if un3 == stationid[location]:
+        un3.move_train(location, distance, stationid)
+    if un4 == stationid[location]:
+        un4.move_train(location, distance, stationid)
+    if un5 == stationid[location]:
+        un5.move_train(location, distance, stationid)
+    if un6 == stationid[location]:
+        un6.move_train(location, distance, stationid)
+    if un7 == stationid[location]:
+        un7.move_train(location, distance, stationid)
+    if testrun == stationid[location]:
+        testrun.move_train(location, distance, stationid)
+
+
 """
 un1= UnyouClass("1002+ 22 ", 0, 1)
 un2= UnyouClass("2001+1201", 5, 2)
@@ -161,27 +188,27 @@ def startingsignal_sta_pattern(hour, min, stationid):
             for j in range(len(time_down[i])):
                 sta = time_down[i][j]
                 if sta == 14:
-                    stationid[sta].move_train(14, 2, stationid)
+                    move_some_train(14, 2, stationid)
                     #stationid[14],stationid[16]=stationid[16],stationid[14]
                     
                 else:
-                    stationid[sta].move_train(sta, 1, stationid)
+                    move_some_train(sta, 1, stationid)
                     #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
                 
             for j in range(len(time_up[i])):
                 sta = time_up[i][j]
                 if sta == 30:
-                    stationid[sta].move_train(30, -30, stationid)
+                    move_some_train(30, -30, stationid)
                     #stationid[sta],stationid[0]=stationid[sta+1],stationid[sta]
                 elif sta == 16:
                     if stationid[15] != 0 and stationid[16] == 0:
-                        stationid[15].move_train(15, 2, stationid)
+                        move_some_train(15, 2, stationid)
                         #stationid[15],stationid[17] = stationid[17],stationid[15]
                     elif stationid[17] == 0:
-                        stationid[17].move_train(16, 1, stationid)
+                        move_some_train(16, 1, stationid)
                         #stationid[16],stationid[17] = stationid[17],stationid[16]
                 else:
-                    stationid[sta].move_train(sta, 1, stationid)
+                    move_some_train(sta, 1, stationid)
                     #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
     return stationid
 
@@ -198,36 +225,40 @@ def startingsignal_sta_morning(hour, min, stationid):
                 if sta == 14:
                     #和田塚0532発を鎌倉5番線に入選させる
                     if tc.timesig(5,32, hour, min) == True:
-                        stationid[14],stationid[15]=stationid[15],stationid[14] 
+                        move_some_train(14, 1, stationid)
+                        #stationid[14],stationid[15]=stationid[15],stationid[14] 
                     else:
-                        stationid[14],stationid[16]=stationid[16],stationid[14]
+                        move_some_train(14, 2, stationid)
+                        #stationid[14],stationid[16]=stationid[16],stationid[14]
                 #早朝藤沢24発48分発を除外する
                 elif sta == 0:
                     if min % 24 == 0:
                         pass
                     else:
-                        stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+                        move_some_train(sta, 1, stationid)
+                        #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
                 else:
-                    stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+                    move_some_train(sta, 1, stationid)
+                    #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
         
             for j in range(len(time_up[i])):
                 sta = time_up[i][j]
                 if sta == 30:
                     #石上駅に列車がいるときだけ入れ替える
                     if stationid[30] != 0:
-                        stationid[sta].move_train(sta, 1, stationid)
+                        move_some_train(sta, -30, stationid)
                         #stationid[sta],stationid[0]=stationid[0],stationid[sta]
                 elif sta == 15:
                     if tc.timesig(5,59, hour, min) == True:
-                        stationid[sta].move_train(15, 2, stationid)
+                        move_some_train(15, 2, stationid)
                         #stationid[15],stationid[17]=stationid[17],stationid[15]
                 elif sta == 16:
                     #鎌倉駅3番ホーム発車時刻
                     #鎌倉0559発は3番発車をキャンセルせず駅15から発車させる
-                    stationid[sta].move_train(sta, 1, stationid)
+                    move_some_train(sta, 1, stationid)
                     #stationid[16],stationid[17]=stationid[17],stationid[16]
                 else:
-                    stationid[sta].move_train(sta, 1, stationid)
+                    move_some_train(sta, 1, stationid)
                     #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
 
     return stationid

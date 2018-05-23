@@ -16,7 +16,8 @@ if __name__ == '__main__':
     tr.un4 = tr.UnyouClass("1101"," 22 ", 26, 4)
     tr.un5 = tr.UnyouClass(" 21 ","1501", 10, 5)
     tr.un6 = tr.UnyouClass("1002"," 305", 21, 6)
-
+    tr.un7 = tr.UnyouClass("1501"," 502", 21, 6)   
+    tr.testrun = tr.UnyouClass("","", 21, 6)  
 
 def run_train(hour,min, stationid):
     if tc.timesig(5,43, hour, min) == True:
@@ -33,7 +34,7 @@ def run_train(hour,min, stationid):
         tr.un6.set_train(stationid)
 
     if tc.timesig(9, 7, hour, min) == True:
-        tr.un6.change_all_cars(20, " 10 ", stationid)
+        tr.un6.change_all_cars(20, "git1201", stationid)
 
     if tc.timesig(9, 24, hour, min) == True:
         tr.un6.add_cars(26, " 502", stationid)
