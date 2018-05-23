@@ -28,24 +28,24 @@ class UnyouClass:
         unyouid.append(self)
 
     def __del__(self):
-        for i in len(unyouid):
-            if unyouid[i] == self: 
-                del unyouid[i]
-
+        #運用の配列を削除してから運用を削除
         pass
 
-    def move_train(self, location, distance):
-        self.location += distance
+    def move_train(self, location, distance, stationid):
+        #1駅移動するときは1駅移動する先と内容を交換して、位置情報を更新する
+        self.location = location + distance
         stationid[location],stationid[location+distance] = stationid[location+distance],stationid[location]
-        return self.location
+        return
         
 
     def set_train(self, stationid):
         print(str(len(self.train)))
         if len(self.train) == 2:
-            stationid[self.location] = str(self.icon) + self.train[0] + '+' + self.train[1]
+            stationid[self.location] = self
+            self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
         else:
-            stationid[self.location] = str(self.icon) + self.train[0] + '     '
+            stationid[self.location] = self
+            self.carname = str(self.icon) + self.train[0] + '     '
         return stationid
 
     def out_train(self, stationid,idnum):
@@ -88,7 +88,7 @@ class UnyouClass:
             self.train.append(car)
             self.train[0], self.train[1] = car, self.train[0]
 
-        stationid[location] = str(self.icon) + self.train[0] + '+' + self.train[1]
+        self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
         return stationid
 
 
@@ -100,7 +100,7 @@ class UnyouClass:
         else:
             del self.train[1]
 
-        stationid[location] = str(self.icon) + self.train[0] + '     '
+        self.carname = str(self.icon) + self.train[0] + '     '
         return stationid
 
 
@@ -115,7 +115,7 @@ class UnyouClass:
             #train[0] = car
             self.train[0], self.train[1] = car, self.train[0]
 
-        stationid[location] = str(self.icon) + self.train[0] + '+' + self.train[1]
+        self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
         return stationid
 
     def change_all_cars(self, location, car, stationid):
@@ -127,7 +127,7 @@ class UnyouClass:
             self.train[0] = car
             del self.train[1]
 
-        stationid[location] = str(self.icon) + self.train[0] + '     '
+        self.carname = str(self.icon) + self.train[0] + '     '
         return stationid
 
 
@@ -161,22 +161,28 @@ def startingsignal_sta_pattern(hour, min, stationid):
             for j in range(len(time_down[i])):
                 sta = time_down[i][j]
                 if sta == 14:
-                    stationid[14],stationid[16]=stationid[16],stationid[14]
+                    stationid[sta].move_train(14, 2, stationid)
+                    #stationid[14],stationid[16]=stationid[16],stationid[14]
                     
                 else:
-                    stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+                    stationid[sta].move_train(sta, 1, stationid)
+                    #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
                 
             for j in range(len(time_up[i])):
                 sta = time_up[i][j]
                 if sta == 30:
-                    stationid[sta],stationid[0]=stationid[sta+1],stationid[sta]
+                    stationid[sta].move_train(30, -30, stationid)
+                    #stationid[sta],stationid[0]=stationid[sta+1],stationid[sta]
                 elif sta == 16:
                     if stationid[15] != 0 and stationid[16] == 0:
-                        stationid[15],stationid[17] = stationid[17],stationid[15]
+                        stationid[15].move_train(15, 2, stationid)
+                        #stationid[15],stationid[17] = stationid[17],stationid[15]
                     elif stationid[17] == 0:
-                        stationid[16],stationid[17] = stationid[17],stationid[16]
+                        stationid[17].move_train(16, 1, stationid)
+                        #stationid[16],stationid[17] = stationid[17],stationid[16]
                 else:
-                    stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+                    stationid[sta].move_train(sta, 1, stationid)
+                    #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
     return stationid
 
 #早朝用運用管理
@@ -209,15 +215,19 @@ def startingsignal_sta_morning(hour, min, stationid):
                 if sta == 30:
                     #石上駅に列車がいるときだけ入れ替える
                     if stationid[30] != 0:
-                        stationid[sta],stationid[0]=stationid[0],stationid[sta]
+                        stationid[sta].move_train(sta, 1, stationid)
+                        #stationid[sta],stationid[0]=stationid[0],stationid[sta]
                 elif sta == 15:
                     if tc.timesig(5,59, hour, min) == True:
-                        stationid[15],stationid[17]=stationid[17],stationid[15]
+                        stationid[sta].move_train(15, 2, stationid)
+                        #stationid[15],stationid[17]=stationid[17],stationid[15]
                 elif sta == 16:
                     #鎌倉駅3番ホーム発車時刻
                     #鎌倉0559発は3番発車をキャンセルせず駅15から発車させる
-                    stationid[16],stationid[17]=stationid[17],stationid[16]
+                    stationid[sta].move_train(sta, 1, stationid)
+                    #stationid[16],stationid[17]=stationid[17],stationid[16]
                 else:
-                    stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+                    stationid[sta].move_train(sta, 1, stationid)
+                    #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
 
     return stationid

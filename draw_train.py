@@ -51,10 +51,11 @@ def draw_train(hour,min,stationid):
     downicon=""
     up=""
     upicon=""
-    e1=""
-    e3=""
-    e4=""
-    
+    """
+    for i in len(tr.unyouid):
+        stationid[tr.unyouid[i].location] 
+         = tr.unyouid[i].carname
+    """
 
     #location = "藤沢　石上　柳小路　鵠沼　湘南海岸公園　江ノ島　腰越　鎌倉高校前　峰が原　七里ヶ浜　稲村ケ崎　極楽寺　長谷　由比ガ浜　和田塚　鎌倉"
     location = "藤沢　石上　柳小　鵠沼　湘南　江ノ　腰越　鎌高　峰原　七里　稲村　極楽　長谷　由比　和田　鎌倉"
@@ -70,7 +71,7 @@ def draw_train(hour,min,stationid):
         #駅に車両がいるかどうか
         if stationid[i] != 0:
             #列車番号記入
-            down += str(stationid[i]) 
+            down += str(stationid[i].carname) 
             down += ""
         else:
             if i != 0 and stationid[i-1] != 0:
@@ -87,7 +88,7 @@ def draw_train(hour,min,stationid):
     for i in reversed(range(16,32)):
         #print(i)
         if stationid[i] != 0:
-            up += str(stationid[i])
+            up += str(stationid[i].carname)
             up += ""
             
         else:
@@ -102,19 +103,19 @@ def draw_train(hour,min,stationid):
             upicon += "      "
     
     if stationid[32] != 0:
-        track_e1 += str(stationid[32])
+        track_e1 += str(stationid[32].carname)
     if stationid[33] != 0:
-        track_e3 += str(stationid[33])
+        track_e3 += str(stationid[33].carname)
     if stationid[34] != 0:
-        track_e4 += str(stationid[34])
+        track_e4 += str(stationid[34].carname)
     if stationid[35] != 0:
         track_e4 += " "
-        track_e4 += str(stationid[35])
+        track_e4 += str(stationid[35].carname)
     
     for i in range(36,42):
         if stationid[i] != 0:
             track_goku += " "
-            track_goku += stationid[i]
+            track_goku += stationid[i].carname
         else:
             pass
 
