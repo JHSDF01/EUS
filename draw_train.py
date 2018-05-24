@@ -115,7 +115,7 @@ def draw_train(hour,min,stationid):
     for i in range(36,42):
         if stationid[i] != 0:
             track_goku += " "
-            track_goku += stationid[i].carname
+            track_goku += str(stationid[i].carname)
         else:
             pass
 

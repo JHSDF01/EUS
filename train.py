@@ -6,17 +6,6 @@
 import cars as car
 import time_count as tc
 
-unyouid = []
-if __name__ == '__main__':
-    un1 = UnyouClass(" 501","2003", 20, 1)
-    un2 = UnyouClass(" 10 ","1001", 5, 2)
-    un3 = UnyouClass("2002","1502", 5, 3)
-    un4 = UnyouClass("1101"," 22 ", 26, 4)
-    un5 = UnyouClass(" 21 ","1501", 10, 5)
-    un6 = UnyouClass("1002"," 305", 21, 6)
-    un7 = UnyouClass("1501"," 502", 21, 6)   
-    testrun = UnyouClass("1201","", 21, 6)      
-    stationid = []
 
 class UnyouClass:
     def __init__(self, car1, car2, stationnum, icon):
@@ -32,7 +21,7 @@ class UnyouClass:
             self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
         else:
             self.carname = str(self.icon) + self.train[0] + '     '
-        unyouid.append(self)
+        
 
     def __del__(self):
         #運用の配列を削除してから運用を削除
@@ -138,23 +127,34 @@ class UnyouClass:
         return stationid
 
 
+if __name__ == '__main__':
+    un1 = UnyouClass(" 501","2003", 20, 1)
+    un2 = UnyouClass(" 10 ","1001", 5, 2)
+    un3 = UnyouClass("2002","1502", 5, 3)
+    un4 = UnyouClass("1101"," 22 ", 26, 4)
+    un5 = UnyouClass(" 21 ","1501", 10, 5)
+    un6 = UnyouClass("1002"," 305", 21, 6)
+    un7 = UnyouClass("1501"," 502", 21, 6)   
+    testrun = UnyouClass("1201","", 21, 6)      
+    stationid = []
+
 def move_some_train(location, distance, stationid):
     #stationid[location].move_train(location, distance, stationid)
-    if un1 == stationid[location]:
+    if stationid[location] == un1:
         un1.move_train(location, distance, stationid)
-    if un2 == stationid[location]:
+    if stationid[location] == un2:
         un2.move_train(location, distance, stationid)
-    if un3 == stationid[location]:
+    if stationid[location] == un3:
         un3.move_train(location, distance, stationid)
-    if un4 == stationid[location]:
+    if stationid[location] == un4:
         un4.move_train(location, distance, stationid)
-    if un5 == stationid[location]:
+    if stationid[location] == un5:
         un5.move_train(location, distance, stationid)
-    if un6 == stationid[location]:
+    if stationid[location] == un6:
         un6.move_train(location, distance, stationid)
-    if un7 == stationid[location]:
+    if stationid[location] == un7:
         un7.move_train(location, distance, stationid)
-    if testrun == stationid[location]:
+    if stationid[location] == testrun:
         testrun.move_train(location, distance, stationid)
 
 
@@ -261,4 +261,43 @@ def startingsignal_sta_morning(hour, min, stationid):
                     move_some_train(sta, 1, stationid)
                     #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
 
+    return stationid
+
+#深夜運用用の関数
+def startingsignal_sta_night(hour, min, stationid):
+    #[12分間隔の時の時間[その時間の時に出発する駅ID]]
+    #1分や13分に出発するのは駅番号０の藤沢、5のえのしま、10の稲村ケ崎
+    time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[]]
+    time_up = [[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[],[],[]]
+
+    time_down_2 = [[],[],[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[]]
+    time_up_2 = [[],[],[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[]]
+    for i in range(11):
+        #12分間隔のうち、例えば1分の時だったら配列の１にある０と10の駅で座標入れかえ
+        if min % 12 == i:
+            for j in range(len(time_down_2[i])):
+                sta = time_down_2[i][j]
+                if sta == 14:
+                    move_some_train(14, 2, stationid)
+                    #stationid[14],stationid[16]=stationid[16],stationid[14]
+                    
+                else:
+                    move_some_train(sta, 1, stationid)
+                    #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+                
+            for j in range(len(time_up_2[i])):
+                sta = time_up_2[i][j]
+                if sta == 30:
+                    move_some_train(30, -30, stationid)
+                    #stationid[sta],stationid[0]=stationid[sta+1],stationid[sta]
+                elif sta == 16:
+                    if stationid[15] != 0 and stationid[16] == 0:
+                        move_some_train(15, 2, stationid)
+                        #stationid[15],stationid[17] = stationid[17],stationid[15]
+                    elif stationid[17] == 0:
+                        move_some_train(16, 1, stationid)
+                        #stationid[16],stationid[17] = stationid[17],stationid[16]
+                else:
+                    move_some_train(sta, 1, stationid)
+                    #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
     return stationid
