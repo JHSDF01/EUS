@@ -3,6 +3,8 @@
 
 #列車と運用についてのデータを定義する
 #列車の運行を開始する
+
+#車両の文字と番号を配列で管理できるようにしたが、結局文字列変換して保存してしまっているので、IDで管理して描画のとこだけ文字列に変換する処理がしたい
 import cars as car
 import time_count as tc
 
@@ -10,10 +12,14 @@ import time_count as tc
 class UnyouClass:
     def __init__(self, car1, car2, stationnum, icon):
         self.train =[]
-        self.train.append(car1)
+        for i in range(len(car.carid[0])):
+            if car.carid[0][i] == car1:
+                self.train.append(car.carid[1][i])
         if car2 != "":
             #４両編成の場合、車両を追加
-            self.train.append(car2)
+            for i in range(len(car.carid[0])):
+                if car.carid[0][i] == car1:
+                    self.train.append(car.carid[1][i])
         self.location = stationnum
         self.icon = "[" + str(icon) + "]"
 
@@ -76,12 +82,15 @@ class UnyouClass:
 
     def add_cars(self, location, car, stationid):
         #単行に出庫車を連結する場合
+        for i in range(len(car.carid[0])):
+            if car.carid[0][i] == car:
+                carword = car.carid[1][i]
         if location < 16:
-            self.train.append(car)
+            self.train.append(carword)
         else:
             #train[0] = train[1]
             #train[0] = car
-            self.train.append(car)
+            self.train.append(carword)
             self.train[0], self.train[1] = car, self.train[0]
 
         self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
@@ -116,11 +125,15 @@ class UnyouClass:
 
     def change_all_cars(self, location, car, stationid):
         #重連の前に2両を待機させ、後ろ4両をそのまま入庫させる場合
+        for i in range(len(car.carid[0])):
+            if car.carid[0][i] == car:
+                carword = car.carid[1][i]
+
         if self.location < 16:
-            self.train[0] = car
+            self.train[0] = carword
             del self.train[1]
         else:
-            self.train[0] = car
+            self.train[0] = carword
             del self.train[1]
 
         self.carname = str(self.icon) + self.train[0] + '     '
@@ -128,14 +141,14 @@ class UnyouClass:
 
 
 if __name__ == '__main__':
-    un1 = UnyouClass(" 501","2003", 20, 1)
-    un2 = UnyouClass(" 10 ","1001", 5, 2)
-    un3 = UnyouClass("2002","1502", 5, 3)
-    un4 = UnyouClass("1101"," 22 ", 26, 4)
-    un5 = UnyouClass(" 21 ","1501", 10, 5)
-    un6 = UnyouClass("1002"," 305", 21, 6)
-    un7 = UnyouClass("1501"," 502", 21, 6)   
-    testrun = UnyouClass("1201","", 21, 6)      
+    un1 = UnyouClass( 501,2003, 20, 1)
+    un2 = UnyouClass( 10 ,1001, 5, 2)
+    un3 = UnyouClass(2002,1502, 5, 3)
+    un4 = UnyouClass(1101, 22 , 26, 4)
+    un5 = UnyouClass( 21 ,1501, 10, 5)
+    un6 = UnyouClass(1002, 305, 21, 6)
+    un7 = UnyouClass(1501, 502, 21, 6)   
+    testrun = UnyouClass(1201, 0, 21, 6)      
     stationid = []
 
 def move_some_train(location, distance, stationid):

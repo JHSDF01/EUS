@@ -6,21 +6,27 @@ import time_count as tc
 import train as tr
 
 stationid =[0 for i in range(42)]
+#江ノ島留置線の配列(将来的には4になる)
 enoid = [0 for i in range(3)]
-carid = [[305, 1001, 1002, 1101, 1201, 1501, 1502, 2001, 2002, 2003, 10, 21, 22, 501, 502],[" 305", "1001", "1002", "1101", "1201", "1501", "1502", "2001", "2002", "2003", " 10 ", " 21 ", " 22 ", " 501", " 502"],[1 for i in range(15)]]
+#検車区の配列（こっちは15編成ぶん用意しておくが、サイズは動的に確保するものとする）
 depotid = [0 for i in range(15)]
+
+#車両の配列　車両番号と、車両番号の文字列と、車両が車庫に入っているかどうか、1で入庫中
+#carid = [[305, 1001, 1002, 1101, 1201, 1501, 1502, 2001, 2002, 2003, 10, 21, 22, 501, 502],[" 305", "1001", "1002", "1101", "1201", "1501", "1502", "2001", "2002", "2003", " 10 ", " 21 ", " 22 ", " 501", " 502"],[1 for i in range(15)]]
+
+
 hour = 5
 min = 0
 
 if __name__ == '__main__':
-    tr.un1 = tr.UnyouClass(" 501","2003", 20, 1)
-    tr.un2 = tr.UnyouClass(" 10 ","1001", 5, 2)
-    tr.un3 = tr.UnyouClass("2002","1502", 5, 3)
-    tr.un4 = tr.UnyouClass("1101"," 22 ", 26, 4)
-    tr.un5 = tr.UnyouClass(" 21 ","1501", 10, 5)
-    tr.un6 = tr.UnyouClass("1002"," 305", 21, 6)
-    tr.un7 = tr.UnyouClass("1501"," 502", 21, 6)   
-    tr.testrun = tr.UnyouClass("","", 21, 6)  
+    tr.un1 = tr.UnyouClass( 501,2003, 20, 1)
+    tr.un2 = tr.UnyouClass( 10 ,1001, 5, 2)
+    tr.un3 = tr.UnyouClass(2002,1502, 5, 3)
+    tr.un4 = tr.UnyouClass(1101, 22 , 26, 4)
+    tr.un5 = tr.UnyouClass( 21 ,1501, 10, 5)
+    tr.un6 = tr.UnyouClass(1002, 305, 21, 6)
+    tr.un7 = tr.UnyouClass(1501, 502, 21, 6)   
+    tr.testrun = tr.UnyouClass(0, 0, 21, 6)  
 
 def run_train(hour,min, stationid):
     if tc.timesig(5,43, hour, min) == True:
@@ -37,10 +43,10 @@ def run_train(hour,min, stationid):
         tr.un6.set_train(stationid)
 
     if tc.timesig(9, 7, hour, min) == True:
-        tr.un6.change_all_cars(20, "1201", stationid)
+        tr.un6.change_all_cars(20, 1201, stationid)
 
     if tc.timesig(9, 24, hour, min) == True:
-        tr.un6.add_cars(26, " 502", stationid)
+        tr.un6.add_cars(26, 502, stationid)
 
     if tc.timesig(22,14, hour, min) == True:
         tr.un1.out_train(stationid,11)

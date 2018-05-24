@@ -9,6 +9,7 @@ def locate_train(stationid, unyo_num, idno):
     stationid[int(idno)] = unyo_num
     return stationid
 
+"""
 un1= tr.UnyouClass(" 501","", 0, 1)
 #un1= tr.UnyouClass(" 501","2003", 0, 1)
 un2= tr.UnyouClass(" 10 ","1001", 5, 2)
@@ -19,22 +20,22 @@ un6= tr.UnyouClass("1002"," 305", 26, 6)
 
 """
 if __name__ == '__main__':
-    un1= tr.UnyouClass("1002"," 22 ", 0, 1)
-    un2= tr.UnyouClass("2001","1201", 5, 2)
-    un3= tr.UnyouClass(" 10 ","1501", 10, 3)
-    un4= tr.UnyouClass("2003","1502", 16, 4)
-    un5= tr.UnyouClass(" 501"," 305", 21, 5)
-    un6= tr.UnyouClass("1101","1001", 26, 6)
-"""
-stationid =[0 for i in range(42)]
+    un1= tr.UnyouClass(1002, 22 , 0, 1)
+    un2= tr.UnyouClass(2001,1201, 5, 2)
+    un3= tr.UnyouClass( 10 ,1501, 10, 3)
+    un4= tr.UnyouClass(2003,1502, 16, 4)
+    un5= tr.UnyouClass( 501, 305, 21, 5)
+    un6= tr.UnyouClass(1101,1001, 26, 6)
+    stationid =[0 for i in range(42)]
 
+"""
 tr.UnyouClass.set_train(un1,stationid)
 tr.UnyouClass.set_train(un2,stationid)
 tr.UnyouClass.set_train(un3,stationid)
 tr.UnyouClass.set_train(un4,stationid)
 tr.UnyouClass.set_train(un5,stationid)
 tr.UnyouClass.set_train(un6,stationid)
-
+"""
 
 """
 locate_train(stationid, un1, 0)
@@ -44,6 +45,7 @@ locate_train(stationid, un4, 16)
 locate_train(stationid, un5, 21)
 locate_train(stationid, un6, 26)
 """
+
 
 def draw_train(hour,min,stationid):
     
