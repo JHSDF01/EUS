@@ -15,10 +15,10 @@ class UnyouClass:
         for i in range(len(car.carid[0])):
             if car.carid[0][i] == car1:
                 self.train.append(car.carid[1][i])
-        if car2 != "":
+        if car2 != 0:
             #４両編成の場合、車両を追加
             for i in range(len(car.carid[0])):
-                if car.carid[0][i] == car1:
+                if car.carid[0][i] == car2:
                     self.train.append(car.carid[1][i])
         self.location = stationnum
         self.icon = "[" + str(icon) + "]"
@@ -56,10 +56,10 @@ class UnyouClass:
         #江ノ島留置
         if idnum == 26 and len(self.train) == 1:
             if stationid[33] == 0:
-                stationid[idnum], stationid[33] = stationid[33], stationid[idnum]
+                stationid[idnum], stationid[33] = 0, stationid[idnum]
                 self.location = idnum
             elif stationid[32] == 0:
-                stationid[idnum], stationid[34] = stationid[34], stationid[idnum]
+                stationid[idnum], stationid[34] = 0, stationid[idnum]
                 self.location = idnum
  
         #極楽寺留置
@@ -67,31 +67,32 @@ class UnyouClass:
         #極楽寺2とか3は重連でもおいておけるけどここをどう定義するか悩みどころ
         #38、39は重連対応にする？
         if idnum == 11 or idnum == 20:
-            stationid[idnum], stationid[37] = stationid[37], stationid[idnum]            
+            stationid[idnum], stationid[37] = 0, stationid[idnum]            
             for i in range(38, 42):
                 for j in range(len(self.train)):
                 
                     if stationid[i] == 0:
-                        stationid[i]= str(self.train[j])
+                        stationid[i]= stationid[37]
                         break
             self.location = 37
             #stationid[37] = 0
-    
+        
+        stationid[idnum]=0
         del self
         return stationid
 
-    def add_cars(self, location, car, stationid):
+    def add_cars(self, location, car_new, stationid):
         #単行に出庫車を連結する場合
         for i in range(len(car.carid[0])):
-            if car.carid[0][i] == car:
+            if car.carid[0][i] == car_new:
                 carword = car.carid[1][i]
         if location < 16:
             self.train.append(carword)
         else:
             #train[0] = train[1]
-            #train[0] = car
+            #train[0] = car_new
             self.train.append(carword)
-            self.train[0], self.train[1] = car, self.train[0]
+            self.train[0], self.train[1] = self.train[1], self.train[0]
 
         self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
         return stationid
@@ -109,24 +110,24 @@ class UnyouClass:
         return stationid
 
 
-    def change_back_cars(self, location, car, stationid):
+    def change_back_cars(self, location, car_new, stationid):
         #重連の前に2両を連結し、後ろ2両を開放する場合
         if self.location < 16:
             #train[0] = train[1]
-            #train[1] = car
-            self.train[0], self.train[1] = self.train[1], car
+            #train[1] = car_new
+            self.train[0], self.train[1] = self.train[1], car_new
         else:
             #train[1] = train[0]
-            #train[0] = car
-            self.train[0], self.train[1] = car, self.train[0]
+            #train[0] = car_new
+            self.train[0], self.train[1] = car_new, self.train[0]
 
         self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
         return stationid
 
-    def change_all_cars(self, location, car, stationid):
+    def change_all_cars(self, location, car_new, stationid):
         #重連の前に2両を待機させ、後ろ4両をそのまま入庫させる場合
         for i in range(len(car.carid[0])):
-            if car.carid[0][i] == car:
+            if car.carid[0][i] == car_new:
                 carword = car.carid[1][i]
 
         if self.location < 16:
@@ -280,13 +281,13 @@ def startingsignal_sta_morning(hour, min, stationid):
 def startingsignal_sta_night(hour, min, stationid):
     #[12分間隔の時の時間[その時間の時に出発する駅ID]]
     #1分や13分に出発するのは駅番号０の藤沢、5のえのしま、10の稲村ケ崎
-    time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[]]
-    time_up = [[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[],[],[]]
+    #time_down = [[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[],[],[]]
+    #time_up = [[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[],[],[]]
 
     time_down_2 = [[],[],[0,5,10],[1,6],[11],[7],[2,12],[3,8],[13],[9],[4,14],[]]
     time_up_2 = [[],[],[16,26],[27],[17,21],[18],[22],[19,28,23],[24,29],[20],[25,30],[]]
     for i in range(11):
-        #12分間隔のうち、例えば1分の時だったら配列の１にある０と10の駅で座標入れかえ
+        #12分間隔のうち、例えば1分の時だったら配列の１にある0と10の駅で座標入れかえ
         if min % 12 == i:
             for j in range(len(time_down_2[i])):
                 sta = time_down_2[i][j]

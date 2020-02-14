@@ -103,7 +103,8 @@ def draw_train(hour,min,stationid):
             upicon += " <|   "
         else:
             upicon += "      "
-    
+    '''
+    #江の島極楽寺留置は未実装
     if stationid[32] != 0:
         track_e1 += str(stationid[32].carname)
     if stationid[33] != 0:
@@ -120,7 +121,8 @@ def draw_train(hour,min,stationid):
             track_goku += str(stationid[i].carname)
         else:
             pass
-
+    '''
+    
     print("Enoden Unyo Simurator test")
     print( "\n\n" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
     print(track_goku)

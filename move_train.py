@@ -43,5 +43,5 @@ def move_train(hour,min,un1, un2, un3, un4, un5, un6):
     elif min % 12 == 2:
         #下り極楽寺
 """
-    down = 
-    up = 
+    #down = 
+    #up = 
