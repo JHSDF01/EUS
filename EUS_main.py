@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 # coding: utf-8
 import draw_train as draw
+import event_weekday as weekday
 from time import sleep
 import time_count as tc
 import train as tr
 import sys
+
 
 stationid =[0 for i in range(42)]
 #江ノ島留置線の配列(将来的には4になる)
@@ -38,6 +40,7 @@ if __name__ == '__main__':
     tr.un7 = tr.UnyouClass(1501, 502, 21, 6)   
     tr.testrun = tr.UnyouClass(0, 0, 21, 6)  
 
+'''
 def run_train(hour,min, stationid):
     if tc.timesig(5,43, hour, min) == True:
         tr.un1.set_train(stationid) 
@@ -104,6 +107,7 @@ def run_train(hour,min, stationid):
     if tc.timesig(7,25, hour, min) == True:
         tr.un2.out_train(stationid,11)
     """
+'''
 
 sleep_time = 0.2 
     
@@ -111,10 +115,15 @@ while hour < 6:
     #始発列車の発車処理関数をここで6運用分入れる　移設
     #入庫列車を線路上から運用ごとに除去する
     #両数の変更は車両交換で行うこと。江ノ島留置に重連突っ込もうとしたときにどういう処理を出すかはいまのところ考えてない
-    run_train(hour, min, stationid)
+    #平日の運用で車両交換を行う
 
-    draw.draw_train(hour,min,stationid)
-    sleep(sleep_time)
+    weekday.run_train(hour, min, stationid)
+
+    #指定時間前は描画処理をパスする
+    if int(sys.argv[1]) <= hour:
+        draw.draw_train(hour,min,stationid)
+        sleep(sleep_time)
+
     tr.startingsignal_sta_morning(hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
@@ -122,20 +131,24 @@ while hour < 6:
 while hour <= 21:
     #始発列車の発車処理関数をここで6運用分入れる
     #入庫列車を線路上から各運用で除去する
-    run_train(hour, min, stationid)
+    weekday.run_train(hour, min, stationid)
 
-    draw.draw_train(hour,min,stationid)
-    sleep(sleep_time)
+
+    if int(sys.argv[1]) <= hour:
+        draw.draw_train(hour,min,stationid)
+        sleep(sleep_time)
     tr.startingsignal_sta_pattern(hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
 while hour <= 24:
     #始発列車の発車処理関数をここで6運用分入れる
     #入庫列車を線路上から各運用で除去する
-    run_train(hour, min, stationid)
+    weekday.run_train(hour, min, stationid)
 
-    draw.draw_train(hour,min,stationid)
-    sleep(sleep_time)
+    if int(sys.argv[1]) <= hour:
+        draw.draw_train(hour,min,stationid)
+        sleep(sleep_time)
+        
     tr.startingsignal_sta_night(hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
