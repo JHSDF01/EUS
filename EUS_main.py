@@ -109,7 +109,8 @@ def run_train(hour,min, stationid):
     """
 '''
 
-sleep_time = 0.2 
+sleep_time = 0.2
+sleep_time = float(sys.argv[3])
     
 while hour < 6:
     #始発列車の発車処理関数をここで6運用分入れる　移設
@@ -123,7 +124,8 @@ while hour < 6:
     if int(sys.argv[1]) <= hour:
         draw.draw_train(hour,min,stationid)
         sleep(sleep_time)
-
+    if int(sys.argv[2]) <= hour:
+        break
     tr.startingsignal_sta_morning(hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
@@ -137,6 +139,8 @@ while hour <= 21:
     if int(sys.argv[1]) <= hour:
         draw.draw_train(hour,min,stationid)
         sleep(sleep_time)
+    if int(sys.argv[2]) <= hour:
+        break
     tr.startingsignal_sta_pattern(hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
@@ -148,7 +152,8 @@ while hour <= 24:
     if int(sys.argv[1]) <= hour:
         draw.draw_train(hour,min,stationid)
         sleep(sleep_time)
-        
+    if int(sys.argv[2]) <= hour:
+        break    
     tr.startingsignal_sta_night(hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 

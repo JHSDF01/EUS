@@ -123,7 +123,7 @@ def draw_train(hour,min,stationid):
             pass
     '''
     
-    print("Enoden Unyo Simurator test")
+    print("Enoden Unyo Simurator v2.0.2")
     print( "\n\n" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
     print(track_goku)
     print( "\n")
