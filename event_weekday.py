@@ -77,7 +77,7 @@ def run_train(hour,min, stationid):
     if tc.timesig(17, 50, hour, min) == True:
         dp.goku.push_car(tr.un3.parge_cars(11, stationid))
 
-    if tc.timesig(18,  2, hour, min) == True:
+    if tc.timesig(18,  14, hour, min) == True:
         dp.goku.push_car(tr.un5.parge_cars(11, stationid))
 
     if tc.timesig(19,  0, hour, min) == True:

@@ -67,6 +67,7 @@ def draw_train(hour,min,stationid,day_mode_name,event):
     track_e3 =  "                                 --"
     track_e1 =  "                                  --"
     track_goku = "                                                         ____検車区 "
+    track_gtmp = "                                                                "
     #下り列車の描画位置設定
     for i in range(0,16):
         #print(i)
@@ -126,32 +127,20 @@ def draw_train(hour,min,stationid,day_mode_name,event):
         track_e4 += str(event.dp.E04B.desc_car()).rjust(4)
     else:
         track_e4 += "----"
+    if event.dp.Gtemp.desc_car() != 0:
+        track_gtmp += str(event.dp.Gtemp.desc_car()).rjust(4)
+    else:
+        track_gtmp += "----"
 
     for car in event.dp.goku.carslist:
         track_goku += " - " + str(car)
 
-    '''    
-    if stationid[32] != 0:
-        track_e1 += str(stationid[32].carname)
-    if stationid[33] != 0:
-        track_e3 += str(stationid[33].carname)
-    if stationid[34] != 0:
-        track_e4 += str(stationid[34].carname)
-    if stationid[35] != 0:
-        track_e4 += " "
-        track_e4 += str(stationid[35].carname)
-    
-    for i in range(36,42):
-        if stationid[i] != 0:
-            track_goku += " "
-            track_goku += str(stationid[i].carname)
-        else:
-            pass
-    '''
+
     
     print("Enoden Unyo Simurator v2.1.0")
     print( "\n\n" + "(" + day_mode_name + ")" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
     print(track_goku)
+    print(track_gtmp)
     print( "\n")
     print(down)
     print(downicon)

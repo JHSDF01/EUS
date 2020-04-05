@@ -172,9 +172,9 @@ class UnyouClass:
     def change_all_cars(self, location, car_new, stationid):
         #重連の前に2両を待機させ、後ろ4両をそのまま入庫させる場合
         for i in range(len(car.carid[0])):
-            if car.carid[0][i] == car_new:
+            if car.carid[0][i] == int(car_new):
                 carword = car.carid[1][i]
-            out_services = []
+        out_services = []
         out_services.append(self.train[0])
         out_services.append(self.train[1])
         if self.location < 16:

@@ -72,9 +72,7 @@ def run_train(hour,min, stationid):
     if tc.timesig(19, 2, hour, min) == True:
         dp.goku.push_car(tr.un3.parge_cars(11, stationid))
 
-    if tc.timesig(18,  2, hour, min) == True:
-        dp.Gtemp.push_car(tr.un5.parge_cars(11, stationid))
-
+    
     if tc.timesig(19, 12, hour, min) == True:
         dp.E04B.push_car(tr.un1.parge_cars(26, stationid))
 
@@ -83,8 +81,8 @@ def run_train(hour,min, stationid):
     #    tr.un3.parge_cars(11, stationid)
 
     if tc.timesig(18,  14, hour, min) == True:
-        tr.un5.parge_cars(11, stationid)
-    #ここで切り離した車は後続6番に交換される
+        dp.Gtemp.push_car(tr.un5.parge_cars(11, stationid))
+#ここで切り離した車は後続6番に交換される
 
     if tc.timesig(18, 26, hour, min) == True:
         dp.goku.push_cars(tr.un6.change_all_cars(11, dp.Gtemp.pull_car(), stationid))
