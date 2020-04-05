@@ -26,13 +26,12 @@ def set_unyou():
     tr.un2 = tr.UnyouClass(dp.E03.desc_car(),0, 5, 2)
     tr.un3 = tr.UnyouClass(dp.T05A.desc_car(),dp.T05B.desc_car(), 5, 3)
     tr.un4 = tr.UnyouClass(dp.T26A.desc_car(),dp.T26B.desc_car(), 26, 4)
-    tr.un5 = tr.UnyouClass(dp.goku.desc_cars()[2],dp.goku.desc_cars()[3], 10, 5)
+    tr.un5 = tr.UnyouClass(dp.goku.desc_cars()[2],0, 10, 5)
     tr.un6 = tr.UnyouClass(dp.T21A.desc_car(),dp.T21B.desc_car(), 21, 6)
     tr.un7 = tr.UnyouClass(0, 0, 21, 6)   
-    tr.testrun = tr.UnyouClass(0, 0, 20, 6) 
+    tr.testrun = tr.UnyouClass(0, 0, 20, 6)  
 
 def run_train(hour,min, stationid):
-    
     if tc.timesig(5,43, hour, min) == True:
         del tr.un1
         tr.un1 = tr.UnyouClass(dp.goku.pull_car(), 0, 20, 1)
@@ -51,7 +50,7 @@ def run_train(hour,min, stationid):
         tr.un4.set_train(stationid)
     if tc.timesig(6,11, hour, min) == True:
         del tr.un5
-        tr.un5 = tr.UnyouClass(dp.goku.pull_car(),dp.goku.pull_car(), 10, 5)
+        tr.un5 = tr.UnyouClass(dp.goku.pull_car(),0, 10, 5)
         tr.un5.set_train(stationid)
     if tc.timesig(5,22, hour, min) == True:
         del tr.un6
@@ -61,31 +60,35 @@ def run_train(hour,min, stationid):
     if tc.timesig(6, 00, hour, min) == True:
         tr.un1.add_cars(26, dp.E01.pull_car(), stationid)
 
-    if tc.timesig(5, 55, hour, min) == True:
+    if tc.timesig(8, 19, hour, min) == True:
         tr.un2.add_cars(20,dp.goku.pull_car(), stationid)
 
-    if tc.timesig(6, 18, hour, min) == True:
+    if tc.timesig(8, 43, hour, min) == True:
         tr.un4.add_cars(20,dp.goku.pull_car(), stationid)
 
+    if tc.timesig(6, 48, hour, min) == True:
+        tr.un5.add_cars(26, dp.E04B.pull_car() , stationid)
 
-    if tc.timesig(9, 7, hour, min) == True:
-        dp.goku.push_cars(tr.un6.change_all_cars(20, dp.goku.pull_car(), stationid))
-
-    if tc.timesig(9, 24, hour, min) == True:
-        tr.un6.add_cars(26, dp.E04B.pull_car(), stationid)
-
-    if tc.timesig(17, 50, hour, min) == True:
+    if tc.timesig(19, 2, hour, min) == True:
         dp.goku.push_car(tr.un3.parge_cars(11, stationid))
 
     if tc.timesig(18,  2, hour, min) == True:
-        dp.goku.push_car(tr.un5.parge_cars(11, stationid))
+        dp.Gtemp.push_car(tr.un5.parge_cars(11, stationid))
 
-    if tc.timesig(19,  0, hour, min) == True:
-        dp.E04B.push_car(tr.un6.parge_cars(26, stationid))
+    if tc.timesig(19, 12, hour, min) == True:
+        dp.E04B.push_car(tr.un1.parge_cars(26, stationid))
 
-    if tc.timesig(18, 38, hour, min) == True:
-        dp.goku.push_car(tr.un1.parge_cars(11, stationid))
-    #32 1  33 2  34 3 35 4A 36 4B  
+
+    #if tc.timesig(19, 2, hour, min) == True:
+    #    tr.un3.parge_cars(11, stationid)
+
+    if tc.timesig(18,  14, hour, min) == True:
+        tr.un5.parge_cars(11, stationid)
+    #ここで切り離した車は後続6番に交換される
+
+    if tc.timesig(18, 26, hour, min) == True:
+        dp.goku.push_cars(tr.un6.change_all_cars(11, dp.Gtemp.pull_car(), stationid))
+
     if tc.timesig(22,16, hour, min) == True:
         tr.un1.out_train(stationid,11,dp.goku,dp.goku)
     if tc.timesig(24,0, hour, min) == True:
@@ -98,7 +101,6 @@ def run_train(hour,min, stationid):
         tr.un5.out_train(stationid,26,dp.E01,'')
     if tc.timesig(23,49, hour, min) == True:
         tr.un6.out_train(stationid,26,dp.T26A,dp.T26B)
-
 
     """
     if tc.timesig(9, 25, hour, min) == True:

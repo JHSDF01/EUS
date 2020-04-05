@@ -4,7 +4,7 @@
 from time import sleep
 import time_count as tc
 import train as tr
-
+import depot as dp
 def locate_train(stationid, unyo_num, idno):
     stationid[int(idno)] = unyo_num
     return stationid
@@ -47,7 +47,7 @@ locate_train(stationid, un6, 26)
 """
 
 
-def draw_train(hour,min,stationid):
+def draw_train(hour,min,stationid,day_mode_name,event):
     
     down=""
     downicon=""
@@ -105,6 +105,32 @@ def draw_train(hour,min,stationid):
             upicon += "      "
     '''
     #江の島極楽寺留置は未実装
+    '''
+
+    if event.dp.E01.desc_car() != 0:
+        track_e1 += str(event.dp.E01.desc_car()).rjust(4)
+    else:
+        track_e1 += "----"
+    
+    if event.dp.E03.desc_car() != 0:
+        track_e3 += str(event.dp.E03.desc_car()).rjust(4)
+    else:
+        track_e3 += "----"
+    
+    if event.dp.E04A.desc_car() != 0:
+        track_e4 += str(event.dp.E04A.desc_car()).rjust(4)
+    else:
+        track_e4 += "----"
+    track_e4 += "-"          
+    if event.dp.E04B.desc_car() != 0:
+        track_e4 += str(event.dp.E04B.desc_car()).rjust(4)
+    else:
+        track_e4 += "----"
+
+    for car in event.dp.goku.carslist:
+        track_goku += " - " + str(car)
+
+    '''    
     if stationid[32] != 0:
         track_e1 += str(stationid[32].carname)
     if stationid[33] != 0:
@@ -123,8 +149,8 @@ def draw_train(hour,min,stationid):
             pass
     '''
     
-    print("Enoden Unyo Simurator v2.0.2")
-    print( "\n\n" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
+    print("Enoden Unyo Simurator v2.1.0")
+    print( "\n\n" + "(" + day_mode_name + ")" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
     print(track_goku)
     print( "\n")
     print(down)
@@ -139,8 +165,6 @@ def draw_train(hour,min,stationid):
     print(track_e3)
     print(track_e1)
     
-    print("\n遅延など反映できない場合があります。\n")
-    print("\n")
     print("\nこれはテスト画面です。実際の運用ではありません。\n")
 
 
@@ -149,11 +173,10 @@ def draw_train(hour,min,stationid):
 
 
 if __name__ == '__main__':
-    hour = 7
+    hour = 9
     min = 24
-    while True:
-
-        draw_train(hour,min,stationid)
-        sleep(1)
-        tr.startingsignal_sta_pattern(hour,min,stationid)
-        hour, min = tc.time_counter(hour, min)
+    import event_weekday as event
+    draw_train(hour,min,stationid,"平日",event)
+    sleep(1)
+    #tr.startingsignal_sta_pattern(hour,min,stationid)
+    hour, min = tc.time_counter(hour, min)

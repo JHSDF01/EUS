@@ -10,6 +10,14 @@ import time_count as tc
 
 
 class UnyouClass:
+    '''
+    #  各運用が持つデータを定義する。
+    train 車両の配列。最長2つ。
+    中に入れるのは、carクラスのcaridである。
+    つまり、呼ばれた車番305から車番IDの305を探して打ち込む。
+    藤、鎌、初期スタート地点、運用番号を設定すれば完了。
+    車両はintで管理され、0の場合は車両がいないことを指す。
+    '''
     def __init__(self, car1, car2, stationnum, icon):
         self.train =[]
         for i in range(len(car.carid[0])):
@@ -27,8 +35,23 @@ class UnyouClass:
             self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
         else:
             self.carname = str(self.icon) + self.train[0] + '     '
-        
+    
+    def input_cars(self, car1, car2):
+        for i in range(len(car.carid[0])):
+            if car.carid[0][i] == car1:
+                self.train.append(car.carid[1][i])
+        if car2 != 0:
+            #４両編成の場合、車両を追加
+            for i in range(len(car.carid[0])):
+                if car.carid[0][i] == car2:
+                    self.train.append(car.carid[1][i])
 
+        if len(self.train) == 2:
+            self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
+        else:
+            self.carname = str(self.icon) + self.train[0] + '     '
+
+        
     def __del__(self):
         #運用の配列を削除してから運用を削除
         pass
@@ -38,7 +61,8 @@ class UnyouClass:
         self.location = location + distance
         stationid[location],stationid[location+distance] = stationid[location+distance],stationid[location]
         return
-        
+    
+    dict_enoshima = {"no1": "32", "no3": "33", "no4": "34"}
 
     def set_train(self, stationid):
         # print(str(len(self.train)))
@@ -50,13 +74,28 @@ class UnyouClass:
             self.carname = str(self.icon) + self.train[0] + '     '
         return stationid
 
-    def out_train(self, stationid,idnum):
-        #入庫措置
+    def out_train(self, stationid, idnum, depot1, depot2='default'):
+        #idnum は終着駅のID
+        out_services = []
+        out_services.append(self.train[0])
+        depot1.push_car(self.train[0])
+        if len(self.train) == 2:
+            out_services.append(self.train[1])
+            depot2.push_car(self.train[1])
 
+        stationid[idnum]=0
+        del self
+
+        '''
+        #入庫措置
+        #idnumは留置線のIDだが、Depotクラスで管理するので、これは渡されたdepotクラスを参照する方式に今後改める
         #江ノ島留置
         if idnum == 26 and len(self.train) == 1:
             if stationid[33] == 0:
                 stationid[idnum], stationid[33] = 0, stationid[idnum]
+                self.location = idnum
+            elif stationid[34] == 0:
+                stationid[idnum], stationid[34] = 0, stationid[idnum]
                 self.location = idnum
             elif stationid[32] == 0:
                 stationid[idnum], stationid[34] = 0, stationid[idnum]
@@ -80,6 +119,7 @@ class UnyouClass:
         stationid[idnum]=0
         del self
         return stationid
+        '''
 
     def add_cars(self, location, car_new, stationid):
         #単行に出庫車を連結する場合
@@ -101,13 +141,16 @@ class UnyouClass:
     def parge_cars(self, location, stationid):
         #重連を開放して入庫する場合
         if location < 16:
+            out_service = self.train[0]
             self.train[0] = self.train[1]
             del self.train[1]
         else:
+            out_service = self.train[1]
             del self.train[1]
 
+
         self.carname = str(self.icon) + self.train[0] + '     '
-        return stationid
+        return out_service
 
 
     def change_back_cars(self, location, car_new, stationid):
@@ -115,21 +158,25 @@ class UnyouClass:
         if self.location < 16:
             #train[0] = train[1]
             #train[1] = car_new
+            out_service = self.train[0]
             self.train[0], self.train[1] = self.train[1], car_new
         else:
             #train[1] = train[0]
             #train[0] = car_new
+            out_service = self.train[1]
             self.train[0], self.train[1] = car_new, self.train[0]
 
         self.carname = str(self.icon) + self.train[0] + '+' + self.train[1]
-        return stationid
+        return out_service
 
     def change_all_cars(self, location, car_new, stationid):
         #重連の前に2両を待機させ、後ろ4両をそのまま入庫させる場合
         for i in range(len(car.carid[0])):
             if car.carid[0][i] == car_new:
                 carword = car.carid[1][i]
-
+            out_services = []
+        out_services.append(self.train[0])
+        out_services.append(self.train[1])
         if self.location < 16:
             self.train[0] = carword
             del self.train[1]
@@ -138,7 +185,7 @@ class UnyouClass:
             del self.train[1]
 
         self.carname = str(self.icon) + self.train[0] + '     '
-        return stationid
+        return out_services
 
 
 if __name__ == '__main__':
