@@ -40,7 +40,7 @@ def delete_depot():
     depot_midnight = {"E01": dp.E01.desc_cars(),"E02": dp.E02.desc_cars(),"E03": dp.E03.desc_cars(),"E04A": dp.E04A.desc_cars(),"E04B": dp.E04B.desc_cars(), "Gtemp": 0, "goku": dp.goku.desc_cars(),
         "5A": dp.T05A.desc_cars(),"5B": dp.T05B.desc_cars(),"26A": dp.T26A.desc_cars(),"26B": dp.T26B.desc_cars(),"21A": dp.T21A.desc_cars(),"21B": dp.T21B.desc_cars()}
     save.EUS_save(depot_midnight)
-    
+
 def run_train(hour,min, stationid):
     if tc.timesig(5,43, hour, min) == True:
         del tr.un1
@@ -109,7 +109,7 @@ def run_train(hour,min, stationid):
         tr.un5.out_train(stationid,26,dp.E01,'')
     if tc.timesig(23,49, hour, min) == True:
         tr.un6.out_train(stationid,26,dp.T26A,dp.T26B)
-
+        delete_depot()
     """
     if tc.timesig(9, 25, hour, min) == True:
         tr.un4.parge_cars(11, stationid)

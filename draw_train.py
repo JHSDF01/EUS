@@ -137,7 +137,7 @@ def draw_train(hour,min,stationid,day_mode_name,event):
 
 
     
-    print("Enoden Unyo Simurator v2.1.0")
+    print("Enoden Unyo Simurator v2.2.0")
     print( "\n\n" + "(" + day_mode_name + ")" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
     print(track_goku)
     print(track_gtmp)
