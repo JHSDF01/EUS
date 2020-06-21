@@ -6,7 +6,7 @@ import time_count as tc
 import train as tr
 import depot as dp
 import save_depot as save
-
+import json
 
 def set_depot():
     depot_morning = save.EUS_load()
@@ -39,6 +39,31 @@ def delete_depot():
         "Gtemp": 0, "goku": dp.goku.desc_cars(),
         "5A": dp.T05A.desc_car(),"5B": dp.T05B.desc_car(),"26A": dp.T26A.desc_car(),"26B": dp.T26B.desc_car(),"21A": dp.T21A.desc_car(),"21B": dp.T21B.desc_car()}
     save.EUS_save(depot_midnight)
+
+
+def input_unyou():
+    with open('save/unyo.json') as uload:
+        noon = json.load(uload)
+        tr.un1 = tr.UnyouClass(noon["[1]"][0], noon["[1]"][1], 0, 1)
+        tr.un2 = tr.UnyouClass(noon["[2]"][0], noon["[2]"][1], 5, 2)
+        tr.un3 = tr.UnyouClass(noon["[3]"][0], noon["[3]"][1], 10, 3)
+        tr.un4 = tr.UnyouClass(noon["[4]"][0], noon["[4]"][1], 16, 4)
+        tr.un5 = tr.UnyouClass(noon["[5]"][0], noon["[5]"][1], 21, 5)
+        tr.un6 = tr.UnyouClass(noon["[6]"][0], noon["[6]"][1], 26, 6)
+
+    
+def output_unyo():
+    output =str(str(tr.un1.desc_train())
+        +"\n"+ str(tr.un2.desc_train())
+        +"\n"+ str(tr.un3.desc_train())
+        +"\n"+ str(tr.un4.desc_train())
+        +"\n"+ str(tr.un5.desc_train())
+        +"\n"+ str(tr.un6.desc_train())
+        +"\ngoku"+ str(dp.goku.desc_cars())
+    )
+    with open('save/unyo.txt', 'w') as fsave:
+       fsave.write(output)
+
 
 
 def run_train(hour,min, stationid):
@@ -109,6 +134,16 @@ def run_train(hour,min, stationid):
     if tc.timesig(23,49, hour, min) == True:
         tr.un6.out_train(stationid,26,dp.T26A,dp.T26B)
         delete_depot()
+ 
+    if tc.timesig(24,0, hour, min) == True:
+        delete_depot()
+
+
+    if tc.timesig(11, 00, hour, min) == True:
+        # 1から6までの運用を出力する。
+        output_unyo()
+        pass
+
     """
     if tc.timesig(9, 25, hour, min) == True:
         tr.un4.parge_cars(11, stationid)

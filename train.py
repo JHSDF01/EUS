@@ -56,6 +56,10 @@ class UnyouClass:
         #運用の配列を削除してから運用を削除
         pass
 
+    def desc_train(self):
+        trainname = self.carname
+        return trainname
+
     def move_train(self, location, distance, stationid):
         #1駅移動するときは1駅移動する先と内容を交換して、位置情報を更新する
         self.location = location + distance

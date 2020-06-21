@@ -35,7 +35,14 @@ if len(sys.argv) >= 3:
 if sim_day_mode == 1:
     import event_holiday as event
     day_mode_name = '土休日'
+elif sim_day_mode == 2:
+    import event_holiday_calc as event
+    day_mode_name = '平日(日中から計算)'
+elif sim_day_mode == 3:
+    import event_holiday_calc as event
+    day_mode_name = '土休日(日中から計算)'
 else:
+    # 0のとき
     import event_weekday as event
     day_mode_name = '平日'
 
