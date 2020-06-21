@@ -37,8 +37,9 @@ def set_unyou():
     tr.testrun = tr.UnyouClass(0, 0, 20, 6)
 
 def delete_depot():
-    depot_midnight = {"E01": dp.E01.desc_cars(),"E02": dp.E02.desc_cars(),"E03": dp.E03.desc_cars(),"E04A": dp.E04A.desc_cars(),"E04B": dp.E04B.desc_cars(), "Gtemp": 0, "goku": dp.goku.desc_cars(),
-        "5A": dp.T05A.desc_cars(),"5B": dp.T05B.desc_cars(),"26A": dp.T26A.desc_cars(),"26B": dp.T26B.desc_cars(),"21A": dp.T21A.desc_cars(),"21B": dp.T21B.desc_cars()}
+    depot_midnight = {"E01": dp.E01.desc_car(),"E02": dp.E02.desc_car(),"E03": dp.E03.desc_car(),"E04A": dp.E04A.desc_car(),"E04B": dp.E04B.desc_car(),
+        "Gtemp": 0, "goku": dp.goku.desc_cars(),
+        "5A": dp.T05A.desc_car(),"5B": dp.T05B.desc_car(),"26A": dp.T26A.desc_car(),"26B": dp.T26B.desc_car(),"21A": dp.T21A.desc_car(),"21B": dp.T21B.desc_car()}
     save.EUS_save(depot_midnight)
 
 def run_train(hour,min, stationid):
