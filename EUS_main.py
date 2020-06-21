@@ -15,6 +15,7 @@ import draw_train as draw
 from time import sleep
 import time_count as tc
 import train as tr
+import save_depot as save
 import sys
 
 sim_start_time = 5
@@ -38,6 +39,7 @@ else:
     import event_weekday as event
     day_mode_name = '平日'
 
+
 stationid =[0 for i in range(42)]
 #江ノ島留置線の配列(将来的には4になる)
 enoid = [0 for i in range(3)]
@@ -51,17 +53,19 @@ depotid = [0 for i in range(15)]
 hour = 5
 min = 0
 
-'''
-# シミュレーション開始時間の設定(車両を出庫するコマンドを実行していないため、9時とかに設定しても電車が動かない不良アリ。)
-if int(sim_start_time)>4 and int(sim_start_time)<24:
-    hour = int(sim_start_time)
-    if int(sim_start_time)>=0 and int(sim_start_time)<60:
-        min = int(sim_start_time)
-'''
 
+'''
+load
+EUS_saveからファイルを読み取り、
+saveデータを引っ張ってきて、配列に格納する。
+格納した配列を定義で渡せるようにする。
+'''
+event.set_depot()
 
 if __name__ == '__main__':
-    event.set_depot()
+
+    # 車庫入りを定義し、運番を定義する。
+    
     event.set_unyou()
     '''
     tr.un1 = tr.UnyouClass(2003, 0, 20, 1)
@@ -122,3 +126,11 @@ while hour <= 24:
     tr.startingsignal_sta_night(hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
+
+'''
+save
+
+EUS_saveに車庫の在線状況を保存する。
+24時までシミュレーションを行った場合に、
+24時時点での在線状況をセーブして終了する。
+'''

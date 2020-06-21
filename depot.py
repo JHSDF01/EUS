@@ -18,12 +18,14 @@
 '''
 import cars as car
 import time_count as tc
+# import json
 
+'''
 depot_now = {
     "E01": "0","E02": "0","E03": "0","E04A": "0","E04B": "0",
     "G01A": "0","G01B": "0","G02A": "0","G02B": "0","G03": "0","G04": "0","G05": "0","G06A": "0","G06B": "0",
     "5A": "0","5B": "0","26A": "0","26B": "0","21A": "0","21B": "0"}
-
+'''
 class depotClass:
     def __init__(self, car):
         #各留置線の状態を確認する
@@ -38,7 +40,7 @@ class depotClass:
         pass
 
     def push_car(self, car):
-        self.car = car
+        self.car = int(car)
 
     def desc_car(self):
         return self.car
@@ -53,12 +55,12 @@ class templeClass:
         self.carslist = carslist
 
     def push_car(self,car):
-        self.carslist.append(car)
+        self.carslist.append(int(car))
         #車両を入庫車リストの一番後ろに格納する
 
     def push_cars(self,carslist):
         for cars in carslist:
-            self.carslist.append(cars)
+            self.carslist.append(int(cars))
         #重連の入庫車両を入庫車リストの一番後ろに格納する
 
     def desc_cars(self):

@@ -5,21 +5,26 @@ from time import sleep
 import time_count as tc
 import train as tr
 import depot as dp
+import save_depot as save
+
+#車庫に留置されている車両を登録する。
+# save機能で取得するようにする
 
 def set_depot():
-    dp.E01 = dp.depotClass(501)
-    dp.E02 = dp.depotClass(0)
-    dp.E03 = dp.depotClass(1001)
-    dp.E04A = dp.depotClass(0)
-    dp.E04B = dp.depotClass(502)
-    dp.T05A = dp.depotClass(2002)
-    dp.T05B = dp.depotClass(1502)
-    dp.T26A = dp.depotClass(22)
-    dp.T26B = dp.depotClass(0)
-    dp.T21A = dp.depotClass(1002)
-    dp.T21B = dp.depotClass(305)
-    dp.Gtemp = dp.depotClass(0)
-    dp.goku = dp.templeClass([2003,10,21,1501,1101,1201,2001])
+    depot_morning = save.EUS_load()
+    dp.E01 = dp.depotClass(depot_morning["E01"])
+    dp.E02 = dp.depotClass(depot_morning["E02"])
+    dp.E03 = dp.depotClass(depot_morning["E03"])
+    dp.E04A = dp.depotClass(depot_morning["E04A"])
+    dp.E04B = dp.depotClass(depot_morning["E04B"])
+    dp.T05A = dp.depotClass(depot_morning["5A"])
+    dp.T05B = dp.depotClass(depot_morning["5B"])
+    dp.T26A = dp.depotClass(depot_morning["26A"])
+    dp.T26B = dp.depotClass(depot_morning["26B"])
+    dp.T21A = dp.depotClass(depot_morning["21A"])
+    dp.T21B = dp.depotClass(depot_morning["21B"])
+    dp.Gtemp = dp.depotClass(depot_morning["Gtemp"])
+    dp.goku = dp.templeClass(depot_morning["goku"])
 
 def set_unyou():
     tr.un1 = tr.UnyouClass(dp.goku.desc_cars()[0], 0, 20, 1)
@@ -29,8 +34,13 @@ def set_unyou():
     tr.un5 = tr.UnyouClass(dp.goku.desc_cars()[2],0, 10, 5)
     tr.un6 = tr.UnyouClass(dp.T21A.desc_car(),dp.T21B.desc_car(), 21, 6)
     tr.un7 = tr.UnyouClass(0, 0, 21, 6)   
-    tr.testrun = tr.UnyouClass(0, 0, 20, 6)  
+    tr.testrun = tr.UnyouClass(0, 0, 20, 6)
 
+def delete_depot():
+    depot_midnight = {"E01": dp.E01.desc_cars(),"E02": dp.E02.desc_cars(),"E03": dp.E03.desc_cars(),"E04A": dp.E04A.desc_cars(),"E04B": dp.E04B.desc_cars(), "Gtemp": 0, "goku": dp.goku.desc_cars(),
+        "5A": dp.T05A.desc_cars(),"5B": dp.T05B.desc_cars(),"26A": dp.T26A.desc_cars(),"26B": dp.T26B.desc_cars(),"21A": dp.T21A.desc_cars(),"21B": dp.T21B.desc_cars()}
+    save.EUS_save(depot_midnight)
+    
 def run_train(hour,min, stationid):
     if tc.timesig(5,43, hour, min) == True:
         del tr.un1
