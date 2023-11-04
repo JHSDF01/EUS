@@ -26,7 +26,7 @@ depot_now = {
     "G01A": "0","G01B": "0","G02A": "0","G02B": "0","G03": "0","G04": "0","G05": "0","G06A": "0","G06B": "0",
     "5A": "0","5B": "0","26A": "0","26B": "0","21A": "0","21B": "0"}
 '''
-class depotClass:
+class DepotClass:
     def __init__(self, car):
         #各留置線の状態を確認する
         self.capacity = 1
@@ -77,18 +77,18 @@ class templeClass:
 
 '''
 if __name__ == "__main__":
-    E01 = depotClass(0)
-    E02 = depotClass(0)
-    E03 = depotClass(1001)
-    E04A = depotClass(0)
-    E04B = depotClass(0)
-    T05A = depotClass(2002)
-    T05B = depotClass(1502)
-    T26A = depotClass(22)
-    T26B = depotClass(0)
-    T21A = depotClass(0)
-    T21B = depotClass(0)
-    Gtemp = depotClass(0)
+    E01 = DepotClass(0)
+    E02 = DepotClass(0)
+    E03 = DepotClass(1001)
+    E04A = DepotClass(0)
+    E04B = DepotClass(0)
+    T05A = DepotClass(2002)
+    T05B = DepotClass(1502)
+    T26A = DepotClass(22)
+    T26B = DepotClass(0)
+    T21A = DepotClass(0)
+    T21B = DepotClass(0)
+    Gtemp = DepotClass(0)
     goku = templeClass([])
     #土日夜の一時的な入庫で使うためのバケツ
 '''

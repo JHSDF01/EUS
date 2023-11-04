@@ -7,18 +7,18 @@ import train as tr
 import depot as dp
 
 def set_depot():
-    dp.E01 = dp.depotClass(0)
-    dp.E02 = dp.depotClass(0)
-    dp.E03 = dp.depotClass(1001)
-    dp.E04A = dp.depotClass(0)
-    dp.E04B = dp.depotClass(0)
-    dp.T05A = dp.depotClass(2002)
-    dp.T05B = dp.depotClass(1502)
-    dp.T26A = dp.depotClass(22)
-    dp.T26B = dp.depotClass(0)
-    dp.T21A = dp.depotClass(0)
-    dp.T21B = dp.depotClass(0)
-    dp.Gtemp = dp.depotClass(0)
+    dp.E01 = dp.DepotClass(0)
+    dp.E02 = dp.DepotClass(0)
+    dp.E03 = dp.DepotClass(1001)
+    dp.E04A = dp.DepotClass(0)
+    dp.E04B = dp.DepotClass(0)
+    dp.T05A = dp.DepotClass(2002)
+    dp.T05B = dp.DepotClass(1502)
+    dp.T26A = dp.DepotClass(22)
+    dp.T26B = dp.DepotClass(0)
+    dp.T21A = dp.DepotClass(0)
+    dp.T21B = dp.DepotClass(0)
+    dp.Gtemp = dp.DepotClass(0)
     dp.goku = dp.templeClass([2003,10,21,1501,1201,2001])
 
 def set_unyou():

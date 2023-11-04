@@ -17,6 +17,7 @@ from eus_timer import time_count as tc
 import train as tr
 import save_depot as save
 import sys
+import schedule as sc
 
 sim_start_time = 5
 sim_end_time = 24
@@ -43,7 +44,7 @@ elif sim_day_mode == 3:
     day_mode_name = '土休日(日中から計算)'
 else:
     # 0のとき
-    from eus_event import event_weekday as event
+    from eus_event import event_weekday
     day_mode_name = '平日'
 
 
@@ -66,14 +67,16 @@ load
 EUS_saveからファイルを読み取り、
 saveデータを引っ張ってきて、配列に格納する。
 格納した配列を定義で渡せるようにする。
+
+運用をイベントクラスで管理するようにしたため、ローカルにtrainが入らない。
 '''
-event.set_depot()
+#event.set_depot()
 
 if __name__ == '__main__':
 
     # 車庫入りを定義し、運番を定義する。
-    
-    event.set_unyou()
+    event = event_weekday.EventClass()
+    #event.set_unyou()
     '''
     tr.un1 = tr.UnyouClass(2003, 0, 20, 1)
     tr.un2 = tr.UnyouClass(1001,0, 5, 2)
@@ -102,7 +105,7 @@ while hour < 6:
         sleep(sleep_time)
     if int(sim_end_time) <= hour:
         break
-    tr.startingsignal_sta_morning(hour,min,stationid)
+    sc.startingsignal_sta_morning(event,hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
 
@@ -117,7 +120,7 @@ while hour <= 21:
         sleep(sleep_time)
     if int(sim_end_time) <= hour:
         break
-    tr.startingsignal_sta_pattern(hour,min,stationid)
+    sc.startingsignal_sta_pattern(event,hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
 while hour <= 24:
@@ -130,7 +133,7 @@ while hour <= 24:
         sleep(sleep_time)
     if int(sim_end_time) <= hour:
         break    
-    tr.startingsignal_sta_night(hour,min,stationid)
+    sc.startingsignal_sta_night(event,hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
 
