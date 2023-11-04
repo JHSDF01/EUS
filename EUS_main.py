@@ -11,7 +11,7 @@ sys argv
 
 '''
 
-import draw_train as draw
+from graph import draw_train as draw
 from time import sleep
 from eus_timer import time_count as tc
 import train as tr
@@ -32,7 +32,7 @@ if len(sys.argv) >= 3:
         sleep_time = float(sys.argv[3])
         if len(sys.argv) == 5:
             sim_day_mode = int(sys.argv[4])
-
+"""
 if sim_day_mode == 1:
     from eus_event import event_holiday as event
     day_mode_name = '土休日'
@@ -42,10 +42,16 @@ elif sim_day_mode == 2:
 elif sim_day_mode == 3:
     from eus_event import event_holiday_calc as event
     day_mode_name = '土休日(日中から計算)'
+
 else:
     # 0のとき
     from eus_event import event_weekday
     day_mode_name = '平日'
+
+上の分岐は暫定的に塞ぐ。
+"""
+from eus_event import event_weekday
+day_mode_name = '平日'
 
 
 stationid =[0 for i in range(42)]
