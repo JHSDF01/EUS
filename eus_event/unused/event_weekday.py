@@ -8,7 +8,7 @@ import depots
 import save_depot as save
 import json
 
-class EventClass:
+class EventWeekDay(EventClass):
 
     def __init__(self):
         depot_morning = save.EUS_load()
@@ -20,26 +20,6 @@ class EventClass:
         self.un5 = tr.UnyouClass(self.dp.goku.desc_cars()[2],self.dp.goku.desc_cars()[3], 10, 5)
         self.un6 = tr.UnyouClass(self.dp.T21A.desc_car(),self.dp.T21B.desc_car(), 21, 6)
         self.unyolist = [self.un1,self.un2,self.un3,self.un4,self.un5,self.un6]
-        """
-        with open('save/unyo.json') as uload:
-            noon = json.load(uload)
-            self.un1 = tr.UnyouClass(noon["[1]"][0], noon["[1]"][1], 0, 1)
-            self.un2 = tr.UnyouClass(noon["[2]"][0], noon["[2]"][1], 5, 2)
-            self.un3 = tr.UnyouClass(noon["[3]"][0], noon["[3]"][1], 10, 3)
-            self.un4 = tr.UnyouClass(noon["[4]"][0], noon["[4]"][1], 16, 4)
-            self.un5 = tr.UnyouClass(noon["[5]"][0], noon["[5]"][1], 21, 5)
-            self.un6 = tr.UnyouClass(noon["[6]"][0], noon["[6]"][1], 26, 6)
-            self.un7 = tr.UnyouClass(0, 0, 21, 6)   
-            self.testrun = tr.UnyouClass(0, 0, 20, 6) 
-        self.unyolist = [self.un1,self.un2,self.un3,self.un4,self.un5,self.un6,self.un7,self.testrun]
-        """
-        
-        
-    """    
-    def set_depot(self):
-        depot_morning = save.EUS_load()
-        self.dp = depots.DepotsClass(depot_morning)
-    """
 
     def set_unyou(self):
         self.un1 = tr.UnyouClass(self.dp.goku.desc_cars()[0], 0, 20, 1)
@@ -64,7 +44,7 @@ class EventClass:
             self.testrun = tr.UnyouClass(noon["[8]"][0], noon["[8]"][1], 20, 6) 
 
     def delete_depot(self):
-        self.depot_midnight = {"E01": self.dp.E01.desc_car(),"E02": self.dp.E02.desc_car(),"E03": self.dp.E03.desc_car(),"E04A": self.dp.E04A.desc_car(),"E04B": self.dp.E04B.desc_car(),
+        depot_midnight = {"E01": self.dp.E01.desc_car(),"E02": self.dp.E02.desc_car(),"E03": self.dp.E03.desc_car(),"E04A": self.dp.E04A.desc_car(),"E04B": self.dp.E04B.desc_car(),
             "Gtemp": 0, "goku": self.dp.goku.desc_cars(),
             "5A": self.dp.T05A.desc_car(),"5B": self.dp.T05B.desc_car(),"26A": self.dp.T26A.desc_car(),"26B": self.dp.T26B.desc_car(),"21A": self.dp.T21A.desc_car(),"21B": self.dp.T21B.desc_car()}
         save.EUS_save(depot_midnight)

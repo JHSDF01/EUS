@@ -32,27 +32,27 @@ if len(sys.argv) >= 3:
         sleep_time = float(sys.argv[3])
         if len(sys.argv) == 5:
             sim_day_mode = int(sys.argv[4])
-"""
-if sim_day_mode == 1:
-    from eus_event import event_holiday as event
-    day_mode_name = '土休日'
-elif sim_day_mode == 2:
-    from eus_event import event_holiday_calc as event
-    day_mode_name = '平日(日中から計算)'
-elif sim_day_mode == 3:
-    from eus_event import event_holiday_calc as event
-    day_mode_name = '土休日(日中から計算)'
 
+from eus_event import event as eve
+if sim_day_mode == 1:
+    day_mode_name = '土休日'
+    event = eve.EventHoliday()
 else:
     # 0のとき
-    from eus_event import event_weekday
     day_mode_name = '平日'
+    event = eve.EventWeekDay()
 
-上の分岐は暫定的に塞ぐ。
+"""    
+elif sim_day_mode == 2:
+    from eus_event import event_holiday_calc as eve
+    day_mode_name = '平日(日中から計算)'
+    event = eve.EventWeekDayCalc()
+
+elif sim_day_mode == 3:
+    from eus_event import event_holiday_calc as eve
+    day_mode_name = '土休日(日中から計算)'
+    event = eve.EventHolidayCalc()
 """
-from eus_event import event_weekday
-day_mode_name = '平日'
-
 
 stationid =[0 for i in range(42)]
 #江ノ島留置線の配列(将来的には4になる)
@@ -81,7 +81,7 @@ saveデータを引っ張ってきて、配列に格納する。
 if __name__ == '__main__':
 
     # 車庫入りを定義し、運番を定義する。
-    event = event_weekday.EventClass()
+    
     #event.set_unyou()
     '''
     tr.un1 = tr.UnyouClass(2003, 0, 20, 1)
