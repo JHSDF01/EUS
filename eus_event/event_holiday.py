@@ -2,13 +2,14 @@
 # coding: utf-8
 
 from time import sleep
-import time_count as tc
+from eus_timer import time_count as tc
 import train as tr
 import depot as dp
 import save_depot as save
 import json
 
-# 昼の運用から予想するモード
+#車庫に留置されている車両を登録する。
+# save機能で取得するようにする
 
 def set_depot():
     depot_morning = save.EUS_load()
@@ -31,10 +32,10 @@ def set_unyou():
     tr.un2 = tr.UnyouClass(dp.E03.desc_car(),0, 5, 2)
     tr.un3 = tr.UnyouClass(dp.T05A.desc_car(),dp.T05B.desc_car(), 5, 3)
     tr.un4 = tr.UnyouClass(dp.T26A.desc_car(),dp.T26B.desc_car(), 26, 4)
-    tr.un5 = tr.UnyouClass(dp.goku.desc_cars()[2],dp.goku.desc_cars()[3], 10, 5)
+    tr.un5 = tr.UnyouClass(dp.goku.desc_cars()[2],0, 10, 5)
     tr.un6 = tr.UnyouClass(dp.T21A.desc_car(),dp.T21B.desc_car(), 21, 6)
     tr.un7 = tr.UnyouClass(0, 0, 21, 6)   
-    tr.testrun = tr.UnyouClass(0, 0, 20, 6) 
+    tr.testrun = tr.UnyouClass(0, 0, 20, 6)
 
 def delete_depot():
     depot_midnight = {"E01": dp.E01.desc_car(),"E02": dp.E02.desc_car(),"E03": dp.E03.desc_car(),"E04A": dp.E04A.desc_car(),"E04B": dp.E04B.desc_car(),
@@ -43,30 +44,17 @@ def delete_depot():
     save.EUS_save(depot_midnight)
 
 
-def input_unyou(stationid):
+def input_unyou():
     with open('save/unyo.json') as uload:
         noon = json.load(uload)
-        del tr.un1
-        del tr.un2
-        del tr.un3
-        del tr.un4
-        del tr.un5
-        del tr.un6
         tr.un1 = tr.UnyouClass(noon["[1]"][0], noon["[1]"][1], 0, 1)
-        tr.un2 = tr.UnyouClass(noon["[2]"][0], noon["[2]"][1], 26, 2)
-        tr.un3 = tr.UnyouClass(noon["[3]"][0], noon["[3]"][1], 21, 3)
+        tr.un2 = tr.UnyouClass(noon["[2]"][0], noon["[2]"][1], 5, 2)
+        tr.un3 = tr.UnyouClass(noon["[3]"][0], noon["[3]"][1], 10, 3)
         tr.un4 = tr.UnyouClass(noon["[4]"][0], noon["[4]"][1], 16, 4)
-        tr.un5 = tr.UnyouClass(noon["[5]"][0], noon["[5]"][1], 10, 5)
-        tr.un6 = tr.UnyouClass(noon["[6]"][0], noon["[6]"][1], 5, 6)
-        del dp.goku
-        dp.goku = dp.templeClass(noon["goku"])
-        tr.un1.set_train(stationid) 
-        tr.un2.set_train(stationid) 
-        tr.un3.set_train(stationid) 
-        tr.un4.set_train(stationid) 
-        tr.un5.set_train(stationid) 
-        tr.un6.set_train(stationid)
-    
+        tr.un5 = tr.UnyouClass(noon["[5]"][0], noon["[5]"][1], 21, 5)
+        tr.un6 = tr.UnyouClass(noon["[6]"][0], noon["[6]"][1], 26, 6)
+
+  
 def output_unyo():
     output =str(str(tr.un1.desc_train())
         +"\n"+ str(tr.un2.desc_train())
@@ -79,10 +67,7 @@ def output_unyo():
     with open('save/unyo.txt', 'w') as fsave:
        fsave.write(output)
 
-
-
 def run_train(hour,min, stationid):
-    
     if tc.timesig(5,43, hour, min) == True:
         del tr.un1
         tr.un1 = tr.UnyouClass(dp.goku.pull_car(), 0, 20, 1)
@@ -101,7 +86,7 @@ def run_train(hour,min, stationid):
         tr.un4.set_train(stationid)
     if tc.timesig(6,11, hour, min) == True:
         del tr.un5
-        tr.un5 = tr.UnyouClass(dp.goku.pull_car(),dp.goku.pull_car(), 10, 5)
+        tr.un5 = tr.UnyouClass(dp.goku.pull_car(),0, 10, 5)
         tr.un5.set_train(stationid)
     if tc.timesig(5,22, hour, min) == True:
         del tr.un6
@@ -111,31 +96,33 @@ def run_train(hour,min, stationid):
     if tc.timesig(6, 00, hour, min) == True:
         tr.un1.add_cars(26, dp.E01.pull_car(), stationid)
 
-    if tc.timesig(5, 55, hour, min) == True:
+    if tc.timesig(8, 19, hour, min) == True:
         tr.un2.add_cars(20,dp.goku.pull_car(), stationid)
 
-    if tc.timesig(6, 18, hour, min) == True:
+    if tc.timesig(8, 43, hour, min) == True:
         tr.un4.add_cars(20,dp.goku.pull_car(), stationid)
 
+    if tc.timesig(6, 48, hour, min) == True:
+        tr.un5.add_cars(26, dp.E04B.pull_car() , stationid)
 
-    if tc.timesig(9, 7, hour, min) == True:
-        dp.goku.push_cars(tr.un6.change_all_cars(20, dp.goku.pull_car(), stationid))
-
-    if tc.timesig(9, 24, hour, min) == True:
-        tr.un6.add_cars(26, dp.E04B.pull_car(), stationid)
-
-    if tc.timesig(17, 50, hour, min) == True:
+    if tc.timesig(19, 2, hour, min) == True:
         dp.goku.push_car(tr.un3.parge_cars(11, stationid))
 
+    
+    if tc.timesig(19, 12, hour, min) == True:
+        dp.E04B.push_car(tr.un1.parge_cars(26, stationid))
+
+
+    #if tc.timesig(19, 2, hour, min) == True:
+    #    tr.un3.parge_cars(11, stationid)
+
     if tc.timesig(18,  14, hour, min) == True:
-        dp.goku.push_car(tr.un5.parge_cars(11, stationid))
+        dp.Gtemp.push_car(tr.un5.parge_cars(11, stationid))
+#ここで切り離した車は後続6番に交換される
 
-    if tc.timesig(19,  0, hour, min) == True:
-        dp.E04B.push_car(tr.un6.parge_cars(26, stationid))
+    if tc.timesig(18, 26, hour, min) == True:
+        dp.goku.push_cars(tr.un6.change_all_cars(11, dp.Gtemp.pull_car(), stationid))
 
-    if tc.timesig(18, 38, hour, min) == True:
-        dp.goku.push_car(tr.un1.parge_cars(11, stationid))
-    #32 1  33 2  34 3 35 4A 36 4B  
     if tc.timesig(22,16, hour, min) == True:
         tr.un1.out_train(stationid,11,dp.goku,dp.goku)
     if tc.timesig(24,0, hour, min) == True:
@@ -148,15 +135,15 @@ def run_train(hour,min, stationid):
         tr.un5.out_train(stationid,26,dp.E01,'')
     if tc.timesig(23,49, hour, min) == True:
         tr.un6.out_train(stationid,26,dp.T26A,dp.T26B)
- 
+        delete_depot()
+  
     if tc.timesig(24,0, hour, min) == True:
         delete_depot()
 
     if tc.timesig(11, 00, hour, min) == True:
         # 1から6までの運用を出力する。
-        input_unyou(stationid)
+        output_unyo()
         pass
-
     """
     if tc.timesig(9, 25, hour, min) == True:
         tr.un4.parge_cars(11, stationid)

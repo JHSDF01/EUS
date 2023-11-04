@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from time import sleep
-import time_count as tc
+from eus_timer import time_count as tc
 import train as tr
 import depot as dp
 

@@ -13,7 +13,7 @@ sys argv
 
 import draw_train as draw
 from time import sleep
-import time_count as tc
+from eus_timer import time_count as tc
 import train as tr
 import save_depot as save
 import sys
@@ -33,17 +33,17 @@ if len(sys.argv) >= 3:
             sim_day_mode = int(sys.argv[4])
 
 if sim_day_mode == 1:
-    import event_holiday as event
+    from eus_event import event_holiday as event
     day_mode_name = '土休日'
 elif sim_day_mode == 2:
-    import event_holiday_calc as event
+    from eus_event import event_holiday_calc as event
     day_mode_name = '平日(日中から計算)'
 elif sim_day_mode == 3:
-    import event_holiday_calc as event
+    from eus_event import event_holiday_calc as event
     day_mode_name = '土休日(日中から計算)'
 else:
     # 0のとき
-    import event_weekday as event
+    from eus_event import event_weekday as event
     day_mode_name = '平日'
 
 

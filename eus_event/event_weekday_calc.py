@@ -2,11 +2,13 @@
 # coding: utf-8
 
 from time import sleep
-import time_count as tc
+from eus_timer import time_count as tc
 import train as tr
 import depot as dp
 import save_depot as save
 import json
+
+# 昼の運用から予想するモード
 
 def set_depot():
     depot_morning = save.EUS_load()
@@ -41,16 +43,29 @@ def delete_depot():
     save.EUS_save(depot_midnight)
 
 
-def input_unyou():
+def input_unyou(stationid):
     with open('save/unyo.json') as uload:
         noon = json.load(uload)
+        del tr.un1
+        del tr.un2
+        del tr.un3
+        del tr.un4
+        del tr.un5
+        del tr.un6
         tr.un1 = tr.UnyouClass(noon["[1]"][0], noon["[1]"][1], 0, 1)
-        tr.un2 = tr.UnyouClass(noon["[2]"][0], noon["[2]"][1], 5, 2)
-        tr.un3 = tr.UnyouClass(noon["[3]"][0], noon["[3]"][1], 10, 3)
+        tr.un2 = tr.UnyouClass(noon["[2]"][0], noon["[2]"][1], 26, 2)
+        tr.un3 = tr.UnyouClass(noon["[3]"][0], noon["[3]"][1], 21, 3)
         tr.un4 = tr.UnyouClass(noon["[4]"][0], noon["[4]"][1], 16, 4)
-        tr.un5 = tr.UnyouClass(noon["[5]"][0], noon["[5]"][1], 21, 5)
-        tr.un6 = tr.UnyouClass(noon["[6]"][0], noon["[6]"][1], 26, 6)
-
+        tr.un5 = tr.UnyouClass(noon["[5]"][0], noon["[5]"][1], 10, 5)
+        tr.un6 = tr.UnyouClass(noon["[6]"][0], noon["[6]"][1], 5, 6)
+        del dp.goku
+        dp.goku = dp.templeClass(noon["goku"])
+        tr.un1.set_train(stationid) 
+        tr.un2.set_train(stationid) 
+        tr.un3.set_train(stationid) 
+        tr.un4.set_train(stationid) 
+        tr.un5.set_train(stationid) 
+        tr.un6.set_train(stationid)
     
 def output_unyo():
     output =str(str(tr.un1.desc_train())
@@ -133,15 +148,13 @@ def run_train(hour,min, stationid):
         tr.un5.out_train(stationid,26,dp.E01,'')
     if tc.timesig(23,49, hour, min) == True:
         tr.un6.out_train(stationid,26,dp.T26A,dp.T26B)
-        delete_depot()
  
     if tc.timesig(24,0, hour, min) == True:
         delete_depot()
 
-
     if tc.timesig(11, 00, hour, min) == True:
         # 1から6までの運用を出力する。
-        output_unyo()
+        input_unyou(stationid)
         pass
 
     """

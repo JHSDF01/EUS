@@ -17,7 +17,7 @@
 
 '''
 import cars as car
-import time_count as tc
+from eus_timer import time_count as tc
 # import json
 
 '''
