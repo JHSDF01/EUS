@@ -11,7 +11,7 @@ sys argv
 
 '''
 
-from graph import draw_train as draw
+from cui import draw_train as draw
 from time import sleep
 from eus_timer import time_count as tc
 import train as tr
