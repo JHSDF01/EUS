@@ -14,10 +14,10 @@ sys argv
 from cui import draw_train as draw
 from time import sleep
 from eus_timer import time_count as tc
-import train as tr
-import save_depot as save
+from train import train as tr
+from train import save_depot as save
 import sys
-import schedule as sc
+from schedule import schedule_eer_14 as sc
 
 sim_start_time = 5
 sim_end_time = 24

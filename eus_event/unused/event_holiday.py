@@ -3,8 +3,8 @@
 
 from time import sleep
 from eus_timer import time_count as tc
-import train as tr
-import depot as dp
+from train import train as tr
+from train import depot as dp
 import save_depot as save
 import json
 

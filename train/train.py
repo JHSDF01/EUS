@@ -5,7 +5,7 @@
 #列車の運行を開始する
 
 #車両の文字と番号を配列で管理できるようにしたが、結局文字列変換して保存してしまっているので、IDで管理して描画のとこだけ文字列に変換する処理がしたい
-import cars as car
+from train import cars as car
 from eus_timer import time_count as tc
 
 

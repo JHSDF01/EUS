@@ -16,7 +16,7 @@
 江ノ島留置線は規則性がはっきりしているので、これに関しては線路ごとに管理するものとする。
 
 '''
-import cars as car
+from train import cars as car
 from eus_timer import time_count as tc
 # import json
 

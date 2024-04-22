@@ -16,4 +16,10 @@ def timesig(timesighour, timesigmin, hour, min):
     if timesighour == hour and timesigmin == min:
         return True
     else:
-        return False 
+        return False
+
+#藤沢7時を基準にした14分間隔からの余りを吸収        
+def calc_reminder_14_pattern(hour, min):
+    reminder_hour = (hour + 7) % 7
+    reminder_min = ((reminder_hour * 60) + min) % 14
+    return reminder_min

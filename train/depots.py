@@ -1,4 +1,4 @@
-import depot
+from train import depot
 class DepotsClass():
 
     def __init__(self, depot_dict):
