@@ -6,6 +6,23 @@ def move_some_train(event, location, distance, stationid):
         stationid[location],stationid[location+distance] = stationid[location+distance],stationid[location]
     return
 
+def move_to_next_station(event, location, stationid):
+    move_some_train(event, location, 1, stationid)
+    return
+
+def turn_on_kamakura_track3(event, stationid):
+    move_some_train(event, 14, 2, stationid)
+    return
+
+def stay_on_kamakura_track5(event, stationid):
+    move_some_train(event, 14, 2, stationid)
+    return
+
+def turn_on_fujisawa(event, stationid):
+    move_some_train(event, 30, -30, stationid)
+    return
+
+
 #パターンダイヤ時の時刻に合わせて動かす
 def startingsignal_sta_pattern(event, hour, min, stationid):
     #[12分間隔の時の時間[その時間の時に出発する駅ID]]
@@ -17,24 +34,24 @@ def startingsignal_sta_pattern(event, hour, min, stationid):
     for j in range(len(time_down[i])):
         sta = time_down[i][j]
         if sta == 14:
-            move_some_train(event, 14, 2, stationid)
+            turn_on_kamakura_track3(event, stationid)
             #stationid[14],stationid[16]=stationid[16],stationid[14]
             
         else:
-            move_some_train(event, sta, 1, stationid)
+            move_to_next_station(event, sta, stationid)
             #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
         
     for j in range(len(time_up[i])):
         sta = time_up[i][j]
         if sta == 30:
-            move_some_train(event, 30, -30, stationid)
+            turn_on_fujisawa(event, stationid)
             #stationid[sta],stationid[0]=stationid[sta+1],stationid[sta]
         elif sta == 16:
             if stationid[15] != 0 and stationid[16] == 0:
                 move_some_train(event, 15, 2, stationid)
                 #stationid[15],stationid[17] = stationid[17],stationid[15]
             elif stationid[17] == 0:
-                move_some_train(event, 16, 1, stationid)
+                move_to_next_station(event, sta, stationid)
                 #stationid[16],stationid[17] = stationid[17],stationid[16]
         else:
             move_some_train(event, sta, 1, stationid)

@@ -7,7 +7,7 @@ from train import train as tr
 from train import depots
 from train import save_depot as save
 import json
-
+from eus_event import event 
 
 class EventClass:
 
@@ -388,5 +388,5 @@ class EventHoliday(EventClass):
 
         if tc.timesig(11, 00, hour, min) == True:
             # 1から6までの運用を出力する。
-            output_unyo()
+            self.output_unyo()
             pass

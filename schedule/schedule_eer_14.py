@@ -6,6 +6,26 @@ def move_some_train(event, location, distance, stationid):
         stationid[location],stationid[location+distance] = stationid[location+distance],stationid[location]
     return
 
+def move_to_next_station(event, location, stationid):
+    move_some_train(event, location, 1, stationid)
+    return
+
+def turn_on_kamakura_track3(event, stationid):
+    move_some_train(event, 14, 2, stationid)
+    return
+
+def stay_on_kamakura_track5(event, stationid):
+    move_some_train(event, 14, 1, stationid)
+    return
+
+def start_from_kamakura_track3(event, stationid):
+    move_some_train(event, 15, 2, stationid)
+    return
+
+def turn_on_fujisawa(event, stationid):
+    move_some_train(event, 30, -30, stationid)
+    return
+
 #パターンダイヤ時の時刻に合わせて動かす
 def startingsignal_sta_pattern(event, hour, min, stationid):
     #[12分間隔の時の時間[その時間の時に出発する駅ID]]
@@ -17,28 +37,23 @@ def startingsignal_sta_pattern(event, hour, min, stationid):
     for j in range(len(time_down[i])):
         sta = time_down[i][j]
         if sta == 14:
-            move_some_train(event, 14, 2, stationid)
-            #stationid[14],stationid[16]=stationid[16],stationid[14]
-            
+            turn_on_kamakura_track3(event, stationid)            
         else:
-            move_some_train(event, sta, 1, stationid)
-            #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
-        
+            move_to_next_station(event, sta, stationid)
+       
     for j in range(len(time_up[i])):
         sta = time_up[i][j]
         if sta == 30:
-            move_some_train(event, 30, -30, stationid)
-            #stationid[sta],stationid[0]=stationid[sta+1],stationid[sta]
+            turn_on_fujisawa(event, stationid)
         elif sta == 16:
+            #鎌倉5番に電車が居るときは鎌倉5番から出す。
             if stationid[15] != 0 and stationid[16] == 0:
-                move_some_train(event, 15, 2, stationid)
-                #stationid[15],stationid[17] = stationid[17],stationid[15]
+                start_from_kamakura_track3(event, stationid)
+            #3番に居ても、和田塚に電車が居る場合は入れ替えない(分割併合の可能性があるため)
             elif stationid[17] == 0:
-                move_some_train(event, 16, 1, stationid)
-                #stationid[16],stationid[17] = stationid[17],stationid[16]
+                move_to_next_station(event, 16, stationid)
         else:
-            move_some_train(event, sta, 1, stationid)
-            #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+            move_to_next_station(event, sta, stationid)
     return stationid
 
 #早朝用運用管理
@@ -53,41 +68,33 @@ def startingsignal_sta_morning(event, hour, min, stationid):
         if sta == 14:
             #和田塚0532発を鎌倉5番線に入選させる
             if tc.timesig(5,32, hour, min) == True:
-                move_some_train(event, 14, 1, stationid)
-                #stationid[14],stationid[15]=stationid[15],stationid[14] 
+                stay_on_kamakura_track5(event, stationid)
             else:
-                move_some_train(event, 14, 2, stationid)
-                #stationid[14],stationid[16]=stationid[16],stationid[14]
+                turn_on_kamakura_track3(event, stationid)
         #早朝藤沢24発48分発を除外する
         elif sta == 0:
             if min % 24 == 0:
                 pass
             else:
-                move_some_train(event, sta, 1, stationid)
-                #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+                move_to_next_station(event, sta, stationid)
         else:
-            move_some_train(event, sta, 1, stationid)
-            #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+            move_to_next_station(event, sta, stationid)
 
     for j in range(len(time_up[i])):
         sta = time_up[i][j]
         if sta == 30:
             #石上駅に列車がいるときだけ入れ替える
             if stationid[30] != 0:
-                move_some_train(event, sta, -30, stationid)
-                #stationid[sta],stationid[0]=stationid[0],stationid[sta]
+                turn_on_fujisawa(event, stationid)
         elif sta == 15:
             if tc.timesig(5,59, hour, min) == True:
-                move_some_train(event, 15, 2, stationid)
-                #stationid[15],stationid[17]=stationid[17],stationid[15]
+                start_from_kamakura_track3(event, stationid)
         elif sta == 16:
             #鎌倉駅3番ホーム発車時刻
             #鎌倉0559発は3番発車をキャンセルせず駅15から発車させる
-            move_some_train(event, sta, 1, stationid)
-            #stationid[16],stationid[17]=stationid[17],stationid[16]
+            move_to_next_station(event, sta, stationid)
         else:
-            move_some_train(event, sta, 1, stationid)
-            #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+            move_to_next_station(event, sta, stationid)
 
     return stationid
 
@@ -105,26 +112,19 @@ def startingsignal_sta_night(event, hour, min, stationid):
     for j in range(len(time_down_2[i])):
         sta = time_down_2[i][j]
         if sta == 14:
-            move_some_train(event, 14, 2, stationid)
-            #stationid[14],stationid[16]=stationid[16],stationid[14]
-            
+            turn_on_kamakura_track3(event, stationid)           
         else:
-            move_some_train(event, sta, 1, stationid)
-            #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+            move_to_next_station(event, sta, stationid)
         
     for j in range(len(time_up_2[i])):
         sta = time_up_2[i][j]
         if sta == 30:
-            move_some_train(event, 30, -30, stationid)
-            #stationid[sta],stationid[0]=stationid[sta+1],stationid[sta]
+            turn_on_fujisawa(event, stationid)
         elif sta == 16:
             if stationid[15] != 0 and stationid[16] == 0:
-                move_some_train(event, 15, 2, stationid)
-                #stationid[15],stationid[17] = stationid[17],stationid[15]
+                start_from_kamakura_track3(event, stationid)
             elif stationid[17] == 0:
-                move_some_train(event, 16, 1, stationid)
-                #stationid[16],stationid[17] = stationid[17],stationid[16]
+                move_to_next_station(event, 16, stationid)
         else:
-            move_some_train(event, sta, 1, stationid)
-            #stationid[sta],stationid[sta+1] = stationid[sta+1],stationid[sta]
+            move_to_next_station(event, sta, stationid)
     return stationid
