@@ -18,6 +18,7 @@ from train import train as tr
 from train import save_depot as save
 import sys
 from schedule import schedule_eer_14 as sc
+from schedule import scchedule_queue as que
 
 sim_start_time = 5
 sim_end_time = 24
@@ -111,12 +112,11 @@ while hour < 6:
         sleep(sleep_time)
     if int(sim_end_time) <= hour:
         break
-    sc.startingsignal_sta_morning(event,hour,min,stationid)
+    que.starting_signal_by_queue(event,hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
 
-while hour <= 21:
-    #始発列車の発車処理関数をここで6運用分入れる
+while hour <= 20:
     #入庫列車を線路上から各運用で除去する
     event.run_train(hour, min, stationid)
 
@@ -130,7 +130,19 @@ while hour <= 21:
     hour, min = tc.time_counter(hour, min)
 
 while hour <= 24:
-    #始発列車の発車処理関数をここで6運用分入れる
+    #入庫列車を線路上から各運用で除去する
+    event.run_train(hour, min, stationid)
+    if int(sim_start_time) <= hour:
+        draw.draw_train(hour,min,stationid,day_mode_name,event)
+        sleep(sleep_time)
+    if int(sim_end_time) <= hour:
+        break    
+    que.starting_signal_by_queue(event,hour,min,stationid)
+    hour, min = tc.time_counter(hour, min)
+
+
+'''
+while hour <= 24:
     #入庫列車を線路上から各運用で除去する
     event.run_train(hour, min, stationid)
 
@@ -142,6 +154,7 @@ while hour <= 24:
     sc.startingsignal_sta_night(event,hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
 
+'''
 
 '''
 save
