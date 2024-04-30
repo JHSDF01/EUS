@@ -117,7 +117,7 @@ while hour < 6:
 
 
 while hour <= 20:
-    #入庫列車を線路上から各運用で除去する
+    #パターンダイヤ
     event.run_train(hour, min, stationid)
 
 
@@ -139,22 +139,6 @@ while hour <= 24:
         break    
     que.starting_signal_by_queue(event,hour,min,stationid)
     hour, min = tc.time_counter(hour, min)
-
-
-'''
-while hour <= 24:
-    #入庫列車を線路上から各運用で除去する
-    event.run_train(hour, min, stationid)
-
-    if int(sim_start_time) <= hour:
-        draw.draw_train(hour,min,stationid,day_mode_name,event)
-        sleep(sleep_time)
-    if int(sim_end_time) <= hour:
-        break    
-    sc.startingsignal_sta_night(event,hour,min,stationid)
-    hour, min = tc.time_counter(hour, min)
-
-'''
 
 '''
 save
