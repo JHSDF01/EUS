@@ -13,7 +13,7 @@ import json
 def EUS_load():
     morning = {"E01": 0,"E02": 0,"E03": 0,"E04A": 0,"E04B": 0, "Gtemp": 0, "goku": 0,
         "G01A": 0,"G01B": 0,"G02A": 0,"G02B": 0,"G03": 0,"G04": 0,"G05": 0,"G06A": 0,"G06B": 0,
-        "5A": 0,"5B": 0,"26A": 0,"26B": 0,"21A": 0,"21B": 0}
+        "5A": 0,"5B": 0,"26A": 0,"26B": 0,"10A": 0,"10B": 0,"21A": 0,"21B": 0,"15A": 0,"15B": 0,}
 
     with open('save/depot_load.json') as fload:
         morning = json.load(fload)

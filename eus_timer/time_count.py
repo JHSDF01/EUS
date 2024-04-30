@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
+
 def time_counter(hour, min):
     min += 1
     if min == 60:
@@ -23,3 +24,10 @@ def calc_reminder_14_pattern(hour, min):
     reminder_hour = (hour + 7) % 7
     reminder_min = ((reminder_hour * 60) + min) % 14
     return reminder_min
+
+#藤沢22：24を基準にした26分間隔からの余りを吸収        
+def calc_reminder_26_pattern(hour, min):
+    reminder_hour = (hour + 22) % 22
+    reminder_min = ((reminder_hour * 60) + min + 2) % 26
+    return reminder_min
+
