@@ -61,13 +61,15 @@ def draw_train(hour,min,stationid,day_mode_name,event):
 
     #location = "藤沢　石上　柳小路　鵠沼　湘南海岸公園　江ノ島　腰越　鎌倉高校前　峰が原　七里ヶ浜　稲村ケ崎　極楽寺　長谷　由比ガ浜　和田塚　鎌倉"
     location = "藤沢　石上　柳小　鵠沼　湘南　江ノ　腰越　鎌高　峰原　七里　稲村　極楽　長谷　由比　和田　鎌倉"
+    track_tup = "                          江2 "
     track_s =  "----              ----        ----              ----        ----        ----              ----"
     track_m =  "    ------------------------------------------------------------------------------------------"
-    track_e4 =  "                                --"
-    track_e3 =  "                                 --"
-    track_e1 =  "                                  --"
+    track_tdw = "                          江1 "
+    track_e4 =  "                               #4-"
+    track_e3 =  "                                #3-"
+    track_e1 =  "                                 #1-"
     track_goku = "                                                         ____検車区 "
-    track_gtmp = "                                                                "
+    track_gtmp = "                                                              極"
     #下り列車の描画位置設定
     for i in range(0,16):
         #print(i)
@@ -107,6 +109,52 @@ def draw_train(hour,min,stationid,day_mode_name,event):
     '''
     #江の島極楽寺留置は未実装
     '''
+    #留置車両
+    
+    if event.dp.T05A.desc_car() != 0:
+        track_tup += str(event.dp.T05A.desc_car()).rjust(4)
+    else:
+        track_tup += "----"
+    if event.dp.T05B.desc_car() != 0:
+        track_tup += "+" + str(event.dp.T05B.desc_car()).rjust(4)
+    else:
+        track_tup += "-----"
+    track_tup += "                 稲2 "
+    if event.dp.T10A.desc_car() != 0:
+        track_tup += str(event.dp.T10A.desc_car()).rjust(4)
+    else:
+        track_tup += "----"
+    if event.dp.T10B.desc_car() != 0:
+        track_tup += "+" + str(event.dp.T10B.desc_car()).rjust(4)
+    else:
+        track_tup += "-----"
+    track_tup += "                 鎌5 "
+    if event.dp.T15A.desc_car() != 0:
+        track_tup += str(event.dp.T15A.desc_car()).rjust(4)
+    else:
+        track_tup += "----"
+    if event.dp.T15B.desc_car() != 0:
+        track_tup += "+" + str(event.dp.T15B.desc_car()).rjust(4)
+    else:
+        track_tup += "-----"
+   
+    if event.dp.T26A.desc_car() != 0:
+        track_tdw += str(event.dp.T26A.desc_car()).rjust(4)
+    else:
+        track_tdw += "----"
+    if event.dp.T26B.desc_car() != 0:
+        track_tdw += "+" + str(event.dp.T26B.desc_car()).rjust(4)
+    else:
+        track_tdw += "-----" 
+    track_tdw += "                 稲1 "
+    if event.dp.T21A.desc_car() != 0:
+        track_tdw += str(event.dp.T21A.desc_car()).rjust(4)
+    else:
+        track_tdw += "----"
+    if event.dp.T21B.desc_car() != 0:
+        track_tdw += "+" + str(event.dp.T21B.desc_car()).rjust(4)
+    else:
+        track_tdw += "-----"
 
     if event.dp.E01.desc_car() != 0:
         track_e1 += str(event.dp.E01.desc_car()).rjust(4)
@@ -124,9 +172,9 @@ def draw_train(hour,min,stationid,day_mode_name,event):
         track_e4 += "----"
     track_e4 += "-"          
     if event.dp.E04B.desc_car() != 0:
-        track_e4 += str(event.dp.E04B.desc_car()).rjust(4)
+        track_e4 += str(event.dp.E04B.desc_car()).rjust(4)+"-"
     else:
-        track_e4 += "----"
+        track_e4 += "-----"
     if event.dp.Gtemp.desc_car() != 0:
         track_gtmp += str(event.dp.Gtemp.desc_car()).rjust(4)
     else:
@@ -141,7 +189,7 @@ def draw_train(hour,min,stationid,day_mode_name,event):
     print( "\n\n" + "(" + day_mode_name + ")" + str(hour) + "時" + str(min) + "分現在の" + "江ノ電車両位置" + "\n\n")
     print(track_goku)
     print(track_gtmp)
-    print( "\n")
+    print(track_tup)
     print(down)
     print(downicon)
     print(track_s)
@@ -149,7 +197,7 @@ def draw_train(hour,min,stationid,day_mode_name,event):
     print(track_m)
     print(upicon)
     print(up)
-    print( "\n")
+    print(track_tdw)
     print(track_e4)
     print(track_e3)
     print(track_e1)
